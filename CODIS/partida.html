@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monopoly Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        #svg-display {
+            max-width: 90vw;
+            max-height: 85vh;
+        }
+        .controls {
+            margin-top: 0px;
+        }
+        button {
+            font-size: 32px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .info {
+            margin-top: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="svg-display" src="C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00000.svg" alt="SVG Image">
+        <div class="controls">
+            <button id="btn-first" onclick="goToFirst()">⏮️</button>
+            <button id="btn-prev" onclick="goToPrev()">⬅️</button>
+            <button id="btn-next" onclick="goToNext()">➡️</button>
+            <button id="btn-last" onclick="goToLast()">⏭️</button>
+        </div>
+        <div class="info">
+            <span id="current-info">1 / 65</span>
+        </div>
+    </div>
+    
+    <script>
+        const svgPaths = ['C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00000.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00001.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00002.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00003.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00004.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00005.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00006.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00007.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00008.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00009.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00010.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00011.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00012.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00013.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00014.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00015.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00016.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00017.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00018.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00019.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00020.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00021.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00022.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00023.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00024.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00025.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00026.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00027.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00028.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00029.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00030.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00031.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00032.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00033.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00034.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00035.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00036.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00037.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00038.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00039.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00040.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00041.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00042.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00043.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00044.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00045.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00046.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00047.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00048.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00049.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00050.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00051.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00052.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00053.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00054.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00055.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00056.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00057.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00058.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00059.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00060.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00061.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00062.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00063.svg', 'C:\\Users\\angel\\Desktop\\AP2\\PROJECTE_MONOPOLY\\CODIS\\images\\imatge00064.svg'];
+        let currentIndex = 0;
+        
+        function updateDisplay() {
+            const img = document.getElementById('svg-display');
+            img.src = svgPaths[currentIndex];
+            
+            document.getElementById('current-info').textContent = 
+                (currentIndex + 1) + ' / ' + svgPaths.length;
+            
+            // Update button states
+            document.getElementById('btn-first').disabled = currentIndex === 0;
+            document.getElementById('btn-prev').disabled = currentIndex === 0;
+            document.getElementById('btn-next').disabled = currentIndex === svgPaths.length - 1;
+            document.getElementById('btn-last').disabled = currentIndex === svgPaths.length - 1;
+        }
+        
+        function goToFirst() {
+            currentIndex = 0;
+            updateDisplay();
+        }
+        
+        function goToPrev() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateDisplay();
+            }
+        }
+        
+        function goToNext() {
+            if (currentIndex < svgPaths.length - 1) {
+                currentIndex++;
+                updateDisplay();
+            }
+        }
+        
+        function goToLast() {
+            currentIndex = svgPaths.length - 1;
+            updateDisplay();
+        }
+        
+        // Initialize on page load
+        updateDisplay();
+    </script>
+</body>
+</html>
