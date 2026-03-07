@@ -174,6 +174,131 @@ class Street(Property):
 
         return owned_same_color == self.nombres_carrers[self._color]
     
+    def can_build_house(self) -> bool:
+        """
+        Comprova si es tenen els requisits per
+        construir una casa en aquest carrer
+        """
+        if not self.has_monopoly():
+            return False
+        if self._hotels == 1:
+            return False
+        if self._houses == 4:
+            return False
+        
+        assert self._owner is not None #Perquè no surti error en el Pylance
+
+        for street in self._owner.owned_properties():
+            if isinstance(street, Street) and street.color == self._color and street != self:
+                if street._houses < self._houses:
+                    return False
+        return True
+    
+    def build_house(self) -> None:
+        """Construeix una casa"""
+
+        assert self._owner is not None #Perquè no surti error en el Pylance
+
+        self._owner.pay(self._house_cost)
+        self._houses += 1
+
+        print(f"{self._owner.name()} ha construït una casa a {self._name} per {self._house_cost}$ (té {self._houses} casa/es)")
+
+    def can_build_hotel(self) -> bool:
+        """
+        Comprova si es compleixen els requisits 
+        per construir un hotel en aquest carrer
+        """
+        if not self.has_monopoly():
+            return False
+        if self._hotels == 1:
+            return False
+        if self._houses != 4:
+            return False
+        
+        assert self._owner is not None #Perquè no surti error en el Pylance
+
+        for street in self._owner.owned_properties():
+            if isinstance(street, Street) and street.color == self._color and street != self:
+                if street._houses < 4 and street._hotels != 1:
+                    return False
+        return True
+    
+    def build_hotel(self) -> None:
+        """Construeix un hotel"""
+
+        assert self._owner is not None #Perquè no surti error en el Pylance
+
+        self._owner.pay(self._hotel_cost)
+        self._houses -= 4
+        self._hotels = 1
+
+        print(f"{self._owner.name()} ha construït un hotel a {self._name} per {self._hotel_cost}$")
+    
+    def can_sell_house(self) -> bool:
+        """
+        Comprova si es tenen els requisits 
+        per vendre una casa en aquest carrer
+        """
+        if not self.has_monopoly():
+            return False
+        if self._hotels == 1:
+            return False
+        if self._houses == 0:
+            return False
+        
+        assert self._owner is not None #Perquè no surti error en el Pylance
+
+        for street in self._owner.owned_properties():
+            if isinstance(street, Street) and street.color == self._color and street != self:
+                if street._hotels == 1:
+                    return False
+                
+                if street._houses > self._houses:
+                    return False
+                
+        return True
+    
+    def sell_house(self) -> None:
+        """Ven una casa"""
+
+        assert self._owner is not None #Perquè no surti error en el Pylance
+
+        self._owner.receive(self._house_cost // 2) #Li retornen la meitat del preu d'una casa
+        self._houses -= 1
+
+        print(f"{self._owner.name()} ha venut una casa a {self._name} (Li queda/en {self._houses} casa/es)")
+    
+    def can_sell_hotel(self) -> bool:
+        """
+        Comprova si es tenen els requisits 
+        per vendre un hotel en aquest carrer
+        """
+        if not self.has_monopoly():
+            return False
+        if self._hotels != 1:
+            return False          
+        
+        assert self._owner is not None #Perquè no surti error en el Pylance
+
+        for street in self._owner.owned_properties():
+            if isinstance(street, Street) and street.color == self._color and street != self:
+                if street._hotels != 1 and street._houses < 4:
+                    return False
+                
+        return True
+    
+    def sell_hotel(self) -> None:
+        """Ven un hotel"""
+
+        assert self._owner is not None #Perquè no surti error en el Pylance
+
+        self._owner.receive(self._hotel_cost // 2) #Li retornen la meitat del preu de l'hotel
+        self._houses += 4
+        self._hotels -= 1
+
+        print(f"{self._owner.name()} ha venut un hotel a {self._name} (Ara té 4 cases)")
+
     def rent_calculation(self) -> int:
         """Calcula el lloguer d'aquell carrer"""
         if self._hotels == 1:

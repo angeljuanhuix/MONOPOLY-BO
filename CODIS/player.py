@@ -5,7 +5,7 @@ from const import GO_SALARY
 from strategies import Strategy, Simple_Strategy
 if TYPE_CHECKING:
     from board import Board
-    from tile import Property
+    from tile import Property, Street
 
 
 class Player:
@@ -48,6 +48,26 @@ class Player:
         vol comprar una propietat o no
         """
         return self._strategy.desire_of_buying(self, property)
+    
+    def wants_to_build_house(self, street: Street) -> bool:
+        """Segons l'estratègia del jugador, es retorna si
+        vol construir una casa o no"""
+        return self._strategy.desire_of_building_house(self, street)
+    
+    def wants_to_build_hotel(self, street: Street) -> bool:
+        """Segons l'estratègia del jugador, es retorna si vol 
+        construir un hotel o no"""
+        return self._strategy.desire_of_building_hotel(self, street)
+    
+    def wants_to_sell_house(self, street: Street) -> bool:
+        """Segons l'estratègia del jugador, es retorna si vol 
+        vendre una casa o no"""
+        return self._strategy.desire_of_selling_house(self, street)
+    
+    def wants_to_sell_hotel(self, street: Street) -> bool:
+        """Segons l'estratègia del jugador, es retorna si vol 
+        vendre un hotel o no"""
+        return self._strategy.desire_of_selling_hotel(self, street)
 
     @property
     def piece(self) -> str:
