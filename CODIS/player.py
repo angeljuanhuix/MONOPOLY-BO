@@ -1,9 +1,11 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any
-from tile import Property
+
 from const import GO_SALARY
+from strategies import Strategy, Simple_Strategy
 if TYPE_CHECKING:
     from board import Board
+    from tile import Property
 
 
 class Player:
@@ -15,12 +17,13 @@ class Player:
     _position: int
     _money: int
 
-    def __init__(self, board: Board, name: str, piece: str, color: str, index: int): 
+    def __init__(self, board: Board, name: str, piece: str, color: str, index: int, strategy: Strategy): 
        self._board = board 
        self._name = name 
        self._piece = piece 
        self._color = color 
        self._index = index
+       self._strategy = strategy
        self._position = 0
        self._money = 1500
        self._num_double = 0
@@ -35,6 +38,16 @@ class Player:
 
     def name(self) -> str:
         return self._name
+    
+    def strategy(self) -> Strategy:
+        return self._strategy
+    
+    def wants_to_buy(self, property: Property) -> bool:
+        """
+        Segons l'estrategia, es decideix si el jugador
+        vol comprar una propietat o no
+        """
+        return self._strategy.desire_of_buying(self, property)
 
     @property
     def piece(self) -> str:
@@ -95,4 +108,6 @@ class Player:
 
 def build_player(board: Board, data: dict[str, Any], index: int) -> Player:
     """Build a Player from JSON-like dict with 'name', 'piece', and 'color' keys."""
-    return Player(board, data["name"], data["piece"], data["color"], index)
+
+    strategies = [Simple_Strategy(), Simple_Strategy(), Simple_Strategy(), Simple_Strategy()]
+    return Player(board, data["name"], data["piece"], data["color"], index, strategies[index])

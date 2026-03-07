@@ -101,7 +101,7 @@ class Property(Tile):
     
     def land_on(self, player: Player) -> None:
         if self.availability():
-            if player.money() >= self._price:
+            if player.wants_to_buy(self): #Seguim l'estratègia
                 self.buy(player)
             else: print(f"{player.name()} no té prous diners per comprar {self._name}")
             

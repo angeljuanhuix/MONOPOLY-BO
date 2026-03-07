@@ -26,3 +26,6 @@ S'ha creat un mètode nou a part del ``dice()`` que es situa al ``board.py`` El 
 ## EXPLICAR LO DE @PROPERTY, EXPLICAR 
 
 ## JOCS DE PROVES (SEEDS)
+
+## IMPORTANT, IMPLEMENTAR A L'ESTRATEGIA
+No oblidar-me de posar a l'estrategia si un jugador vol construir casa, o vol hipotecar o vol deshipotecar
