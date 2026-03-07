@@ -121,7 +121,6 @@
 <rect x="909.0909090909091" y="454.5454545454545" width="90.9090909090909" height="90.9090909090909" fill="#E0E0E0" stroke="black" stroke-width="1" />
 <text x="954.5454545454546" y="482.5454545454545" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚆</text>
 <text x="954.5454545454546" y="499.99999999999994" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Liverpool Street Station £200</text>
-<text x="992.0" y="539.4545454545454" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐈</text>
 <rect x="909.0909090909091" y="545.4545454545455" width="90.9090909090909" height="90.9090909090909" fill="#FFA500" stroke="black" stroke-width="1" />
 <text x="954.5454545454546" y="573.4545454545455" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">❓</text>
 <text x="954.5454545454546" y="590.909090909091" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Chance</text>
@@ -141,12 +140,12 @@
 <text x="863.6363636363636" y="45.45454545454545" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🐧</text>
 <circle cx="954.5454545454545" cy="45.45454545454545" r="16" fill="Silver" stroke="black" stroke-width="2" />
 <text x="954.5454545454545" y="45.45454545454545" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🛩</text>
-<circle cx="954.5454545454546" cy="499.99999999999994" r="16" fill="Gold" stroke="black" stroke-width="2" />
-<text x="954.5454545454546" y="499.99999999999994" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🐈</text>
+<circle cx="772.7272727272727" cy="45.45454545454545" r="16" fill="Gold" stroke="black" stroke-width="2" />
+<text x="772.7272727272727" y="45.45454545454545" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🐈</text>
 <text x="500.0" y="508.0" font-size="60" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🤑</text>
 <rect x="140.9090909090909" y="140.9090909090909" width="334.0909090909091" height="334.0909090909091" fill="LightCoral" stroke="black" stroke-width="1" />
 <text x="148.9090909090909" y="162.9090909090909" font-size="20" font-weight="bold" font-family="Helvetica">🚘 Jordi</text>
-<text x="148.9090909090909" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £485 · 💳 0 · ⛓️ 0</text>
+<text x="148.9090909090909" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £513 · 💳 0 · ⛓️ 0</text>
 <text x="148.9090909090909" y="192.9090909090909" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
 <text x="148.9090909090909" y="209.9090909090909" font-size="14" font-family="Helvetica">🚆 </text>
 <text x="168.9090909090909" y="209.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Kings Cross Station</text>
@@ -176,12 +175,10 @@
 <text x="553.0" y="611.0" font-size="14" font-style="normal" font-family="Helvetica">Fleet Street</text>
 <rect x="140.9090909090909" y="525.0" width="334.0909090909091" height="334.0909090909091" fill="Gold" stroke="black" stroke-width="1" />
 <text x="148.9090909090909" y="547.0" font-size="20" font-weight="bold" font-family="Helvetica">🐈 Marta</text>
-<text x="148.9090909090909" y="561.0" font-size="14" font-family="Helvetica">💵 £1120 · 💳 0 · ⛓️ 0</text>
+<text x="148.9090909090909" y="561.0" font-size="14" font-family="Helvetica">💵 £1292 · 💳 0 · ⛓️ 0</text>
 <text x="148.9090909090909" y="577.0" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
 <circle cx="154.9090909090909" cy="589.0" r="5" fill="#FFA500" stroke="black" stroke-width="0.5" />
 <text x="168.9090909090909" y="594.0" font-size="14" font-style="normal" font-family="Helvetica">Marlborough Street</text>
-<text x="148.9090909090909" y="611.0" font-size="14" font-family="Helvetica">🚆 </text>
-<text x="168.9090909090909" y="611.0" font-size="14" font-style="normal" font-family="Helvetica">Liverpool Street Station</text>
 <text x="365.0" y="813.0909090909091" font-size="72" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">⚂</text>
 <text x="429.0" y="813.0909090909091" font-size="72" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">⚃</text>
 </g>

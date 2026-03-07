@@ -93,6 +93,11 @@ class Property(Tile):
         player.add_property(self)
         self._owner = player
         print(f"{player.name()} ha comprat {self._name} per {self._price}$")
+
+    def rent_calculation(self) -> int:
+        """Mètode que retornà el preu de lloguer depenent de la propietat
+        gràcies a la seva herència"""
+        return self._rent
     
     def land_on(self, player: Player) -> None:
         if self.availability():
@@ -102,9 +107,10 @@ class Property(Tile):
             
         else:
             if self._owner != player and self._owner is not None: #Tot i que ja sabem que l'owner no serà None, ho posem perquè el Pylance entengui que té propietari 100%
-                player.pay(self._rent)
-                self._owner.receive(self._rent)
-                print(f"{player.name()} paga a {self._owner.name()} una quanitat de {self._rent}$")
+                rent = self.rent_calculation()
+                player.pay(rent)
+                self._owner.receive(rent)
+                print(f"{player.name()} paga a {self._owner.name()} una quantitat de {rent}$")
 
         
 class Street(Property):
@@ -137,14 +143,55 @@ class Street(Property):
         self._rent_with_hotel = rent_with_hotel
         self._house_cost = house_cost
         self._hotel_cost = hotel_cost
+        self._houses = 0
+        self._hotels = 0
+    
+    @property
+    def houses(self) -> int:
+        return self._houses
+    
+    @property
+    def hotels(self) -> int:
+        return self._hotels
 
     @property #he posat això perquè sinó, no em surtien les caselles del color que toca
     def color(self) -> str:
         """Això fa que tile.color funcioni sense parèntesis"""
         return self._color
     
-    #def rent_calculation(self) -> int:
+    #Creem un diccionari constant del nombre de carrers que té cada color
+    nombres_carrers: dict[str, int] = {"light_blue": 3, "pink": 3, "orange": 3, "red": 3, "yellow": 3, "green": 3, "brown": 2, "dark_blue": 2}
+    
+    def has_monopoly(self) -> bool:
+        """
+        Retorna si el jugador té totes les propietat del mateix color
+        """
+        assert self._owner is not None #Perquè Pylance no es queixi, 
+        #però nosaltres sabem que si arribem a aquest punt, l'owner sempre tindrà mínim una propietat
+        
+        #isinstance perquè el programa miri si és street i sàpiga que ho és i així no tenir problemes amb el property.color
+        owned_same_color = sum(1 for property in self._owner.owned_properties() if isinstance(property, Street) and property.color == self._color)
 
+        return owned_same_color == self.nombres_carrers[self._color]
+    
+    def rent_calculation(self) -> int:
+        """Calcula el lloguer d'aquell carrer"""
+        if self._hotels == 1:
+            return self._rent_with_hotel
+        elif self._houses == 4:
+            return self._rent_with_4_houses
+        elif self._houses == 3:
+            return self._rent_with_3_houses
+        elif self._houses == 2:
+            return self._rent_with_2_houses
+        elif self._houses == 1:
+            return self._rent_with_1_house
+        elif self.has_monopoly():
+            return self._rent_with_color_set
+        else:
+            return self._rent
+            
+                
 class Station(Property):
     def __init__(
             self, 
@@ -165,6 +212,25 @@ class Station(Property):
         self._rent_with_3_stations = rent_with_3_stations
         self._rent_with_4_stations = rent_with_4_stations
 
+    def rent_calculation(self) -> int:
+
+        assert self._owner is not None #Comprovem que la casella té propietari, tot i que sabem que 100% en tindrà arribat a aquest punt
+        num_stations = sum(1 for property in self._owner.owned_properties() if isinstance(property, Station))
+
+        if num_stations == 1:
+            print(f"S'ha pagat {self._rent} perquè té 1 estació")
+            return self._rent
+        elif num_stations == 2:
+            print(f"S'ha pagat {self._rent_with_2_stations} perquè té 2 estacions")
+            return self._rent_with_2_stations
+        elif num_stations == 3:
+            print(f"S'ha pagat {self._rent_with_3_stations} perquè té 3 estacions")
+            return self._rent_with_3_stations
+        else: #num_stations == 4
+            print(f"S'ha pagat {self._rent_with_4_stations} perquè té 4 estacions")
+            return self._rent_with_4_stations
+        
+
 class Utility(Property):
     def __init__(
             self, 
@@ -181,6 +247,20 @@ class Utility(Property):
         super().__init__(board, position, name, tile_type, price, 0, mortgage, description)
         self._rentMultiplier = rentMultiplier
         self._rentMultiplierWithBoth = rentMultiplierWithBoth
+    
+    def rent_calculation(self) -> int:
+        assert self._owner is not None #Per evitar que surti error del Pylance
+        
+        dice1, dice2 = self._board.current_dice() #Tornem a tirar els daus
+        num_utilities = sum(1 for property in self._owner.owned_properties() if isinstance(property, Utility))
+        
+        if num_utilities == 1:
+            print(f"S'ha pagat {self._rentMultiplier * (dice1 + dice2)} perquè té 1 Utility")
+            return self._rentMultiplier * (dice1 + dice2)
+        else: #num_utilities == 2
+            print(f"S'ha pagat {self._rentMultiplierWithBoth * (dice1 + dice2)} perquè té 2 Utility")
+            return self._rentMultiplierWithBoth * (dice1 + dice2)
+        
 
 class chance(Tile):
     def __init__(

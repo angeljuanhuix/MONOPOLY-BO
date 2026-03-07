@@ -1,6 +1,6 @@
 import pickle
 from player import Player, build_player
-from tile import Tile, build_tile
+from tile import Tile, build_tile, Utility
 import json
 import random
 from const import NUM_TILES
@@ -122,7 +122,15 @@ class Board:
 
                 #S'executa tot allò relacionat amb la casella en la que ha caigut
                 current_tile = self._tiles[self.current_player().position()]
+
+                # Frame extra si és Utility i s'ha de pagar lloguer, ja que tirarà dues vegades, la primera per moure's i la segona per saber quant ha de pagar
+                if isinstance(current_tile, Utility) and not current_tile.availability(): 
+                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                    image_frame += 1
+                
                 current_tile.land_on(self.current_player())
+
+                
                 
                 draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") 
                 image_frame += 1
