@@ -22,6 +22,7 @@
 <rect x="454.5454545454545" y="909.0909090909091" width="90.9090909090909" height="90.9090909090909" fill="#E0E0E0" stroke="black" stroke-width="1" />
 <text x="499.99999999999994" y="937.0909090909091" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚆</text>
 <text x="499.99999999999994" y="954.5454545454546" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Kings Cross Station £200</text>
+<text x="537.4545454545454" y="994.0" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🚘</text>
 <rect x="363.6363636363636" y="909.0909090909091" width="90.9090909090909" height="90.9090909090909" fill="#87CEEB" stroke="black" stroke-width="1" />
 <path d="M363.6363636363636,931.8181818181819 L454.5454545454545,931.8181818181819" stroke="black" stroke-width="1" />
 <text x="409.09090909090907" y="954.5454545454546" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">The Angel Islington £100</text>
@@ -135,7 +136,10 @@
 <text x="500.0" y="508.0" font-size="60" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🤑</text>
 <rect x="140.9090909090909" y="140.9090909090909" width="334.0909090909091" height="334.0909090909091" fill="LightCoral" stroke="black" stroke-width="1" />
 <text x="148.9090909090909" y="162.9090909090909" font-size="20" font-weight="bold" font-family="Helvetica">🚘 Jordi</text>
-<text x="148.9090909090909" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £1500 · 💳 0 · ⛓️ 0</text>
+<text x="148.9090909090909" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £1300 · 💳 0 · ⛓️ 0</text>
+<text x="148.9090909090909" y="192.9090909090909" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
+<text x="148.9090909090909" y="209.9090909090909" font-size="14" font-family="Helvetica">🚆 </text>
+<text x="168.9090909090909" y="209.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Kings Cross Station</text>
 <rect x="525.0" y="140.9090909090909" width="334.0909090909091" height="334.0909090909091" fill="LightBlue" stroke="black" stroke-width="1" />
 <text x="533.0" y="162.9090909090909" font-size="20" font-weight="bold" font-family="Helvetica">🐧 Mireia</text>
 <text x="533.0" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £1500 · 💳 0 · ⛓️ 0</text>

@@ -20,5 +20,9 @@ S'ha creat un mètode nou a part del ``dice()`` que es situa al ``board.py`` El 
 1. T'has d'ubicar dins la carperta AP2\PROJECTE_MONOPOLY\CODIS
 2. Escriure a la terminal ``python3 slideshow.py partida.html (ls images/imatge*.svg)``
 
+## IMPLEMENTACIÓ TRIA DE QUANTS JUGADORS ES VOLEN JUGAR
+
 
 ## EXPLICAR LO DE @PROPERTY, EXPLICAR 
+
+## JOCS DE PROVES (SEEDS)

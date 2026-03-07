@@ -24,6 +24,7 @@ class Player:
        self._position = 0
        self._money = 1500
        self._num_double = 0
+       self._owned_properties: list[Property] = []
 
     def num_double(self) -> int:
         """Comptador de dobles en x tirada"""
@@ -35,6 +36,7 @@ class Player:
     def name(self) -> str:
         return self._name
 
+    @property
     def piece(self) -> str:
         return self._piece
 
@@ -61,7 +63,10 @@ class Player:
         return 0
 
     def owned_properties(self) -> list[Property]:
-        return []
+        return self._owned_properties
+    
+    def add_property(self, property: Property) -> None:
+        self._owned_properties.append(property)
     
     def pay(self, amount: int) -> int:
         self._money -= amount

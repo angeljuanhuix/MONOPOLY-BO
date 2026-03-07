@@ -92,7 +92,7 @@ class Board:
         
         image_frame += 1
 
-        for _ in range(50): # Quan ho tingui més avançat, aquí posar que de range vagi fins quan quedi una persona
+        for _ in range(100): # Quan ho tingui més avançat, aquí posar que de range vagi fins quan quedi una persona FER UN WHILE persones_vives > 1
             
             self._num_double = 0
             

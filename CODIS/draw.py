@@ -231,7 +231,7 @@ def draw_board_tiles(d: dw.Drawing, board: Board, show_number: bool = False) -> 
             owner = getattr(tile, "owner", None)
             if owner is not None:
                 if show_number:
-                    label = str(owner.index + 1)
+                    label = str(owner.index() + 1)
                 else:
                     label = owner.piece
                 d.append(
@@ -319,7 +319,7 @@ def draw_player_circles(d: dw.Drawing, board: Board, show_number: bool = False) 
                 stroke_width=2,
             )
         )
-        label = str(i + 1) if show_number else player.piece()
+        label = str(i + 1) if show_number else player.piece
         d.append(
             dw.Text(
                 label,
@@ -446,7 +446,7 @@ def draw_players_center(d: dw.Drawing, board: Board, show_number: bool = False) 
         header = (
             f"{i+1}. {player.name()}"
             if show_number
-            else f"{player.piece()} {player.name()}"
+            else f"{player.piece} {player.name()}"
         )
         d.append(
             dw.Text(
@@ -508,13 +508,13 @@ def draw_players_center(d: dw.Drawing, board: Board, show_number: bool = False) 
                             stroke_width=0.5,
                         )
                     )
-                elif p.type == "station":
+                elif p.type() == "station":
                     d.append(
                         dw.Text(
                             "🚆 ", prop_font_size, qx + pad, ty, font_family=FONT_FAMILY
                         )
                     )
-                elif p.type == "utility":
+                elif p.type() == "utility":
                     symbol = "💡 " if "Electric" in p.name() else "🚰 "
                     d.append(
                         dw.Text(

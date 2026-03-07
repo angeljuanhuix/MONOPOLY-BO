@@ -27,8 +27,7 @@ class Tile:
     
     def land_on(self, player: Player) -> None:
         """Handle what happens when a player lands on this tile."""
-
-        #Fer un land_on per cada un
+        pass #En principi, només passi perquè cada casella tindrà el seu land_on
 
     def type(self) -> str: 
         return self._tile_type
@@ -62,7 +61,7 @@ class Property(Tile):
         self._price = price
         self._rent = rent
         self._mortgage= mortgage
-        #self._owner = None
+        self._owner = None
 
     @property
     def price(self) -> int:
@@ -76,35 +75,37 @@ class Property(Tile):
     def mortgage(self) -> int:
         return self._mortgage
     
-    """def owner(self) -> None|Player: #Quan no és de ningú tinc posat None, però quan és d'algú se li assigna el valor de Player
-        return self._owner"""
-    """
-    #def availability(self) -> bool:
-        
+    @property
+    def owner(self) -> None|Player: #Quan no és de ningú tinc posat None, però quan és d'algú se li assigna el valor de Player
+        return self._owner
+    
+    
+    def availability(self) -> bool:
+        """
         Retorna si aquella propietat es pot comprar
         o pertany a algú altre
-        
-        return self._owner == None"""
-    """
-    def can_be_bought(self, player: Player) -> bool: #En el codi principal es mirarà abans si té owner o no
-        Retorna si una persona té prous diners
-        per comprar la casella
-        
-        if player.money() >= self._price:
-            self._owner = player
-            print(f"El jugador {player.name()} pot comprar {self._name} :)")
-            return True
-        
-        else:
-            print(f"El jugador {player.name()} no té prous diners per comprar {self._name} :(")
-            return False"""
+        """
+        return self._owner == None
     
-    """def land_on(self, player: Player) -> None:
-        if self.availability() and self.can_be_bought(player):
-            player.pay(self._price)
-        
-        if not self.availability():
-            player.pay(self._rent)"""
+    def buy(self, player: Player) -> None:
+        """El jugador compra la propietat"""
+        player.pay(self._price)
+        player.add_property(self)
+        self._owner = player
+        print(f"{player.name()} ha comprat {self._name} per {self._price}$")
+    
+    def land_on(self, player: Player) -> None:
+        if self.availability():
+            if player.money() >= self._price:
+                self.buy(player)
+            else: print(f"{player.name()} no té prous diners per comprar {self._name}")
+            
+        else:
+            if self._owner != player and self._owner is not None: #Tot i que ja sabem que l'owner no serà None, ho posem perquè el Pylance entengui que té propietari 100%
+                player.pay(self._rent)
+                self._owner.receive(self._rent)
+                print(f"{player.name()} paga a {self._owner.name()} una quanitat de {self._rent}$")
+
         
 class Street(Property):
     def __init__(
@@ -229,45 +230,85 @@ class special(Tile):
 
 
 def build_tile(board: Board , data: dict[str, Any]) -> Tile:
-    
-    #tile_type = data["type"]
-
-    #if tile_type == "property": return Tile(board, data["position"], data["name"], data["type"], data.get("description", ""))
 
     tile_type = data["type"]
-    information = data.values()
-    
 
     if tile_type == "property":
         return Street(
-            board=board,
-            position=data["position"],
-            name=data["name"],
-            tile_type=data["type"],
-            color=data["color"],
-            price=data["price"],
-            rent=data["rent"],
-            rent_with_color_set=data["rentWithColorSet"],
-            rent_with_1_house=data["rentWith1House"],
-            rent_with_2_houses=data["rentWith2Houses"],
-            rent_with_3_houses=data["rentWith3Houses"],
-            rent_with_4_houses=data["rentWith4Houses"],
-            rent_with_hotel=data["rentWithHotel"],
-            house_cost=data["houseCost"],
-            hotel_cost=data["hotelCost"],
-            mortgage=data["mortgage"])
+            board = board,
+            position = data["position"],
+            name = data["name"],
+            tile_type = data["type"],
+            color = data["color"],
+            price = data["price"],
+            rent = data["rent"],
+            rent_with_color_set = data["rentWithColorSet"],
+            rent_with_1_house = data["rentWith1House"],
+            rent_with_2_houses = data["rentWith2Houses"],
+            rent_with_3_houses = data["rentWith3Houses"],
+            rent_with_4_houses = data["rentWith4Houses"],
+            rent_with_hotel = data["rentWithHotel"],
+            house_cost = data["houseCost"],
+            hotel_cost = data["hotelCost"],
+            mortgage = data["mortgage"])
     
     if tile_type == "station":
-        return Station(board, *information)
+        return Station(
+            board = board,
+            position = data["position"],
+            name = data["name"],
+            tile_type = data["type"],
+            price = data["price"],
+            rent = data["rent"],
+            mortgage = data["mortgage"],
+            rent_with_2_stations = data["rentWith2Stations"],
+            rent_with_3_stations = data["rentWith3Stations"],
+            rent_with_4_stations = data["rentWith4Stations"],
+            )
     if tile_type == "utility":
-        return Utility(board, *information)
+        return Utility(
+            board = board,
+            position = data["position"],
+            name = data["name"],
+            tile_type = data["type"],
+            price = data["price"],
+            mortgage = data["mortgage"],
+            description = data["description"],
+            rentMultiplier = data["rentMultiplier"],
+            rentMultiplierWithBoth = data["rentMultiplierWithBoth"],
+            )
     if tile_type == "chance":
-        return chance(board, *information)
+        return chance(
+            board = board,
+            position = data["position"],
+            name = data["name"],
+            tile_type = data["type"],
+            description = data["description"],
+            )
     if tile_type == "community_chest":
-        return community_chest(board, *information)
+        return community_chest(
+            board = board,
+            position = data["position"],
+            name = data["name"],
+            tile_type = data["type"],
+            description = data["description"],
+            )
     if tile_type == "tax":
-        return tax(board, *information)
-    else:
-        return special(board, *information)
+        return tax(
+            board = board,
+            position = data["position"],
+            name = data["name"],
+            tile_type = data["type"],
+            description = data["description"],
+            amount = data["amount"],
+            )
+    else: #GO, Jail, Free Parking, Go to Jail
+        return special(
+            board = board,
+            position = data["position"],
+            name = data["name"],
+            tile_type = data["type"],
+            description = data["description"],
+            )
     
     
