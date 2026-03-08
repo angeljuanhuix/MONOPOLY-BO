@@ -39,6 +39,8 @@ class Player:
     def name(self) -> str:
         return self._name
     
+    #BOOLEANS D'ESTRATÈGIA
+    
     def strategy(self) -> Strategy:
         return self._strategy
     
@@ -64,10 +66,15 @@ class Player:
         vendre una casa o no"""
         return self._strategy.desire_of_selling_house(self, street)
     
-    def wants_to_sell_hotel(self, street: Street) -> bool:
+    def wants_to_mortgage(self, property: Property) -> bool:
         """Segons l'estratègia del jugador, es retorna si vol 
-        vendre un hotel o no"""
-        return self._strategy.desire_of_selling_hotel(self, street)
+        hipotecar una propietat o no"""
+        return self._strategy.desire_of_mortgaging(self, property)
+    
+    def wants_to_unmortgage(self, property: Property) -> bool:
+        """Segons l'estratègia del jugador, es retorna si vol 
+        deshipotecar una propietat o no"""
+        return self._strategy.desire_of_unmortgaging(self, property)
 
     @property
     def piece(self) -> str:

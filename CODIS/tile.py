@@ -27,7 +27,8 @@ class Tile:
     
     def land_on(self, player: Player) -> None:
         """Handle what happens when a player lands on this tile."""
-        pass #En principi, només passi perquè cada casella tindrà el seu land_on
+        pass #Utilitzem aquest land_on com a pare de les altres, però com les propietats
+            # i les tax, special, community and chance no tenen res en comú, no hi podem posar res aquí
 
     def type(self) -> str: 
         return self._tile_type
@@ -62,6 +63,11 @@ class Property(Tile):
         self._rent = rent
         self._mortgage= mortgage
         self._owner = None
+        self._is_mortgaged = False
+
+    @property
+    def is_mortgaged(self) -> bool:
+        return self._is_mortgaged
 
     @property
     def price(self) -> int:
@@ -99,7 +105,43 @@ class Property(Tile):
         gràcies a la seva herència"""
         return self._rent
     
+    def can_mortgage(self) -> bool:
+        """
+        Retornà un booleà indicant True si compleix els
+        requisits per hipotecar el carrer i False pel contrari
+        """
+        if self._is_mortgaged:
+            return False
+        return True
+    
+    def do_mortgage(self) -> None:
+        """Hipoteca un carrer"""
+        assert self._owner is not None
+        
+        self._owner.receive(self._mortgage)
+        self._is_mortgaged = True
+        print(f"{self._owner.name()} ha hipotecat {self._name} i rep {self._mortgage}$")
+
+    def can_unmortgage(self) -> bool:
+        """
+        Retornà un booleà indicant True si compleix els
+        requisits per deshipotecar el carrer i False pel contrari
+        """
+        return self._is_mortgaged
+    
+    def do_unmortgage(self) -> None:
+        """Deshipoteca un carrer"""
+        assert self._owner is not None
+        ten_percent = self._mortgage // 10
+        self._owner.pay(self._mortgage + ten_percent)
+        self._is_mortgaged = False
+        print(f"{self._owner.name()} ha deshipotecat {self._name} pagant {self._mortgage + ten_percent}$")
+    
     def land_on(self, player: Player) -> None:
+        """Gestiona el que s'ha de fer quan un jugador cau en una propietat"""
+        if self._is_mortgaged: #Si la casella està hipotecada, no cal que executi res més
+            return None
+        
         if self.availability():
             if player.wants_to_buy(self): #Seguim l'estratègia
                 self.buy(player)
@@ -298,6 +340,16 @@ class Street(Property):
         self._hotels -= 1
 
         print(f"{self._owner.name()} ha venut un hotel a {self._name} (Ara té 4 cases)")
+
+    def can_mortgage(self) -> bool:
+        """
+        Retornà un booleà indicant True si compleix els
+        requisits per hipotecar el carrer i False pel contrari
+        """
+        if self._houses > 0 or self._hotels == 1:
+            return False
+        
+        return super().can_mortgage()
 
     def rent_calculation(self) -> int:
         """Calcula el lloguer d'aquell carrer"""
