@@ -4,21 +4,11 @@ from tile import Tile, build_tile, Utility
 import json
 import random
 from const import NUM_TILES
+from deck import Deck
 
 
 class Board:
     def __init__(self, tiles_json_path: str, chance_json_path: str, community_chest_json_path: str, players_json_path: str):
-        """
-        self._tiles: list[Any] = []
-        
-        with open(tiles_json_path, 'r', encoding='UTF-8') as file:
-            tiles_data = json.load(file) 
-
-        
-        for data in tiles_data:
-            casella_nova = build_tile(board?, data)
-            self._tiles.append(casella_nova)
-        """
         #ES CARREGA L'INFORMACIÓ DE TOT EL QUE NECESSITEM DEL FITXERS JSON
 
         with open(tiles_json_path, 'r', encoding = "UTF-8") as file:
@@ -29,15 +19,12 @@ class Board:
             data_players = json.load(file)
             #IMPORTANT, la i del tercer apartat de "build_player" és important, ja que fa referència a l'index de cada jugador
         self._players = [build_player(self, data_players[i], i) for i in range(len(data_players))] 
-        """
-        with open(chance_json_path, 'r', encoding = "UTF-8") as file:
-            data_chance = json.load(file)
-        self._chance = [build_tile(self, data_chance[i]) for i in range(len(data_chance))]
+        
+        self._chance_deck = Deck(chance_json_path)
+        self._chance_deck.shuffle()
 
-        with open(community_chest_json_path, 'r', encoding = "UTF-8") as file:
-            data_community = json.load(file)
-        self._community_chest = [build_tile(self, data_community[i]) for i in range(len(data_community))]
-        """
+        self._community_chest_deck = Deck(community_chest_json_path)
+        self._community_chest_deck.shuffle()
 
         #S'INICIALITZA QUE SEMPRE COMENCI LA MATEIXA PERSONA ("Jordi")
         self._current_player_index = 0
