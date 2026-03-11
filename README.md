@@ -25,7 +25,21 @@ S'ha creat un mètode nou a part del ``dice()`` que es situa al ``board.py`` El 
 
 ## EXPLICAR LO DE @PROPERTY, EXPLICAR 
 
-## JOCS DE PROVES (SEEDS)
+## JOCS DE PROVES 
 
 ## IMPORTANT, IMPLEMENTAR A L'ESTRATEGIA
 No oblidar-me de posar a l'estrategia si un jugador vol construir casa, o vol hipotecar o vol deshipotecar
+
+## RENT_MULTIPLIER DEL LAND_ON
+Serveix per quan toca alguna carta i s'ha de multiplicar per dos el lloguer en el cas que sigui d'algú, si no es fa res, doncs serà 1 i no canviarà res
+
+## EXPLICACIÓ PERQUÈ HE POSAT UN LAND_ON A UTILITY
+S'ha hagut de fer un land_on en particular per utility perquè en el cas que es caigui a una utility per culpa d'una targeta, el multiplicador per calcular el lloguer serà sempre x10, sense tenir en compte si té una utilitat o dues, cosa que amb la station hem pogut aprofitar el land_on de property perquè es modifica el lloguer final i no el lloguer en si.
+
+## CREACIÓ FRAME EXTRA QUAN ES CAU A UTILITY I A CHANCE/COMMUNITY_CHEST
+En el cas d'utility, es fa perquè carreguin els daus i es mostrin per pantalla perquè així el corrector pugui veure perquè s'ha pagat certa quantitat, gràcies a que pot veure el valor dels daus que s'han de tirar per calcular el lloguer
+
+Per chance i community_chest, es fa un frame extra per mostrar el que s'executa amb la carta:
+- Moviment(es veurà que el nombre del dau no canvia però el jugador es mou a la casella que li toca)
+- Pagar
+...

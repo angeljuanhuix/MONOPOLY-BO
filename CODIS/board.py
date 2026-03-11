@@ -1,6 +1,6 @@
 import pickle
 from player import Player, build_player
-from tile import Tile, build_tile, Utility
+from tile import Tile, build_tile, Utility, chance, community_chest
 import json
 import random
 from const import NUM_TILES
@@ -29,6 +29,14 @@ class Board:
         #S'INICIALITZA QUE SEMPRE COMENCI LA MATEIXA PERSONA ("Jordi")
         self._current_player_index = 0
         self._turn_player = True
+    
+    def chance_deck(self) -> Deck:
+        """Retorna el piló de les cartes tipus CHANCE"""
+        return self._chance_deck
+
+    def community_chest_deck(self) -> Deck:
+        """Retorna el piló de les cartes tipus COMMUNITY_CHEST"""
+        return self._community_chest_deck
     
     def players(self) -> list[Player]:
         """Retorna la llista de jugadors"""
@@ -110,8 +118,13 @@ class Board:
                 #S'executa tot allò relacionat amb la casella en la que ha caigut
                 current_tile = self._tiles[self.current_player().position()]
 
-                # Frame extra si és Utility i s'ha de pagar lloguer, ja que tirarà dues vegades, la primera per moure's i la segona per saber quant ha de pagar
+                # Frame extra si és Utility perquè s'ha de pagar lloguer, ja que tirarà dues vegades, la primera per moure's i la segona per saber quant ha de pagar
                 if isinstance(current_tile, Utility) and not current_tile.availability(): 
+                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                    image_frame += 1
+                
+                #Frame extra per mostra l'execució de la carta
+                if isinstance(current_tile, (chance, community_chest)):
                     draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
                     image_frame += 1
                 

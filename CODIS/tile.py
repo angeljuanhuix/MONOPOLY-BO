@@ -25,7 +25,7 @@ class Tile:
         self._tile_type = tile_type
         self._description = description
     
-    def land_on(self, player: Player) -> None:
+    def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
         """Handle what happens when a player lands on this tile."""
         pass #Utilitzem aquest land_on com a pare de les altres, però com les propietats
             # i les tax, special, community and chance no tenen res en comú, no hi podem posar res aquí
@@ -137,7 +137,7 @@ class Property(Tile):
         self._is_mortgaged = False
         print(f"{self._owner.name()} ha deshipotecat {self._name} pagant {self._mortgage + ten_percent}$")
     
-    def land_on(self, player: Player) -> None:
+    def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
         """Gestiona el que s'ha de fer quan un jugador cau en una propietat"""
         if self._is_mortgaged: #Si la casella està hipotecada, no cal que executi res més
             return None
@@ -149,7 +149,7 @@ class Property(Tile):
             
         else:
             if self._owner != player and self._owner is not None: #Tot i que ja sabem que l'owner no serà None, ho posem perquè el Pylance entengui que té propietari 100%
-                rent = self.rent_calculation()
+                rent = self.rent_calculation() * rent_multiplier
                 player.pay(rent)
                 self._owner.receive(rent)
                 print(f"{player.name()} paga a {self._owner.name()} una quantitat de {rent}$")
@@ -437,6 +437,23 @@ class Utility(Property):
         else: #num_utilities == 2
             print(f"S'ha pagat {self._rentMultiplierWithBoth * (dice1 + dice2)} perquè té 2 Utility")
             return self._rentMultiplierWithBoth * (dice1 + dice2)
+    
+    def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        if self._is_mortgaged:
+            return
+        if self.availability():
+            if player.wants_to_buy(self):
+                self.buy(player)
+        else:
+            if self._owner != player and self._owner is not None:
+                if rent_multiplier != 1: #Significa que el land_on s'ha cridat des d'una targeta chance
+                    dice1, dice2 = self._board.current_dice()
+                    rent = rent_multiplier * (dice1 + dice2)
+                else: #càlcul normal
+                    rent = self.rent_calculation()
+                player.pay(rent)
+                self._owner.receive(rent)
+                print(f"{player.name()} paga {rent}$ a {self._owner.name()}")
         
 
 class chance(Tile):
@@ -450,6 +467,10 @@ class chance(Tile):
     ):
         super().__init__(board, position, name, tile_type, description)
 
+    def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        card = self._board.chance_deck().draw_card()
+        card.execute(player)
+
 class community_chest(Tile):
     def __init__(
         self, 
@@ -460,6 +481,10 @@ class community_chest(Tile):
         description: str
     ):
         super().__init__(board, position, name, tile_type, description)
+    
+    def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        card = self._board.community_chest_deck().draw_card()
+        card.execute(player)
 
 class tax(Tile):
     def __init__(
@@ -473,6 +498,10 @@ class tax(Tile):
     ):
         super().__init__(board, position, name, tile_type, description)
         self._amount = amount
+
+    def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        player.pay(self._amount)
+        print(f"{player.name()} paga {self._amount}$ d'impostos: {self._name}")
 
 class special(Tile):
     def __init__(

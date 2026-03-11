@@ -28,6 +28,7 @@ class Player:
        self._money = 1500
        self._num_double = 0
        self._owned_properties: list[Property] = []
+       self._get_out_of_jail_free_cards = 0
 
     def num_double(self) -> int:
         """Comptador de dobles en x tirada"""
@@ -95,9 +96,12 @@ class Player:
 
     def position(self) -> int:
         return self._position
+    
+    def add_get_out_of_jail_free_card(self) -> None:
+        self._get_out_of_jail_free_cards += 1
 
     def get_out_of_jail_free_cards(self) -> int:
-        return 0
+        return self._get_out_of_jail_free_cards
 
     def turns_in_prison(self) -> int:
         return 0
