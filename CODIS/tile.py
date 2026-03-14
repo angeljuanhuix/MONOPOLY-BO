@@ -201,8 +201,7 @@ class Street(Property):
         """Això fa que tile.color funcioni sense parèntesis"""
         return self._color
     
-    #Creem un diccionari constant del nombre de carrers que té cada color
-    nombres_carrers: dict[str, int] = {"light_blue": 3, "pink": 3, "orange": 3, "red": 3, "yellow": 3, "green": 3, "brown": 2, "dark_blue": 2}
+    
     
     def has_monopoly(self) -> bool:
         """
@@ -210,11 +209,14 @@ class Street(Property):
         """
         assert self._owner is not None #Perquè Pylance no es queixi, 
         #però nosaltres sabem que si arribem a aquest punt, l'owner sempre tindrà mínim una propietat
+
+        #Creem un diccionari constant del nombre de carrers que té cada color
+        nombres_carrers: dict[str, int] = {"light_blue": 3, "pink": 3, "orange": 3, "red": 3, "yellow": 3, "green": 3, "brown": 2, "dark_blue": 2}
         
         #isinstance perquè el programa miri si és street i sàpiga que ho és i així no tenir problemes amb el property.color
         owned_same_color = sum(1 for property in self._owner.owned_properties() if isinstance(property, Street) and property.color == self._color)
 
-        return owned_same_color == self.nombres_carrers[self._color]
+        return owned_same_color == nombres_carrers[self._color]
     
     def can_build_house(self) -> bool:
         """
@@ -469,6 +471,7 @@ class chance(Tile):
 
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
         card = self._board.chance_deck().draw_card()
+        print(f"{player.name()} agafa una chance card")
         card.execute(player)
 
 class community_chest(Tile):
@@ -484,7 +487,9 @@ class community_chest(Tile):
     
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
         card = self._board.community_chest_deck().draw_card()
+        print(f"{player.name()} agafa una community_chest card")
         card.execute(player)
+       
 
 class tax(Tile):
     def __init__(
@@ -514,6 +519,10 @@ class special(Tile):
     ):
         super().__init__(board, position, name, tile_type, description)
 
+    def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        if self._name == "Go To Jail":
+            player.go_to_prison()
+            print(f"{player.name()} ha caigut a la casella d'anar a la presó!!!")
 
 def build_tile(board: Board , data: dict[str, Any]) -> Tile:
 

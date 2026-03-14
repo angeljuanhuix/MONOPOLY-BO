@@ -22,7 +22,6 @@ S'ha creat un mètode nou a part del ``dice()`` que es situa al ``board.py`` El 
 
 ## IMPLEMENTACIÓ TRIA DE QUANTS JUGADORS ES VOLEN JUGAR
 
-
 ## EXPLICAR LO DE @PROPERTY, EXPLICAR 
 
 ## JOCS DE PROVES 

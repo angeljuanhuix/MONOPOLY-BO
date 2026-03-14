@@ -134,7 +134,7 @@ class GoToJail(Card):
         self._position = position
 
     def execute(self, player: Player) -> None:
-        player.set_position(self._position)
+        player.go_to_prison()
         print(f"{player.name()} li ha tocat <{self._title}>. Va directament a la presó! (NO cobra 200$ si passa pel GO)")
 
 class GetOutOfJailCard(Card):

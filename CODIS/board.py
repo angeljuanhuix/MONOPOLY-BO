@@ -95,49 +95,61 @@ class Board:
             while self._turn_player:
                 
                 dice1, dice2 = self.current_dice() #Assignem valors a les dues tirades de daus
-                
-            
-                #Comprovem si és un doble
-                if dice1 == dice2: 
-                    print(f"El jugador {self.current_player().name()} ha fet DOBLE en el torn {image_frame}")
-                    self._num_double += 1
+                self.current_player().add_turn_in_prison()
+
+                if self.current_player().is_in_prison():
+                    if dice1 == dice2:
+                        self.current_player().leave_prison()
+
+                    if self.current_player().turns_in_prison() == 3:
+                        self.current_player().leave_prison()
                     
-                #Tres dobles seguits = Anar a presó
-                if self._num_double == 3:
-                    print(f"El jugador {self.current_player().name()} se'n va a la presó per fer dobles tres cops {image_frame}")
-                    self.current_player().set_position(self.jail_position()) #ENVIAMENT A LA PRESÓ
-                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") #Generem la imatge 
+                    if self.current_player().get_out_of_jail_free_cards() > 0:
+                        self.current_player().leave_prison()
+
+                else: # Si no hi és, doncs tot normal
+
+                    #Comprovem si és un doble
+                    if dice1 == dice2: 
+                        print(f"El jugador {self.current_player().name()} ha fet DOBLE en el torn {image_frame}")
+                        self._num_double += 1
+                        
+                    #Tres dobles seguits = Anar a presó
+                    if self._num_double == 3:
+                        print(f"El jugador {self.current_player().name()} se'n va a la presó per fer dobles tres cops {image_frame}")
+                        self.current_player().go_to_prison() #ENVIAMENT A LA PRESÓ
+                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") #Generem la imatge 
+                        image_frame += 1
+                        
+                        break #Parem el bucle perquè s'ha acabat el torn del jugador
+                        
+                    #TORN NORMAL. Si s'arriba aquí, significa que no ha arribat a 3 dobles o directament no n'ha fet cap
+                    steps = dice1 + dice2
+                    self.current_player().move(steps, NUM_TILES)
+
+                    #Assignem la casella on cau
+                    current_tile = self._tiles[self.current_player().position()]
+
+                    # Frame extra si és Utility perquè s'ha de pagar lloguer, ja que tirarà dues vegades, la primera per moure's i la segona per saber quant ha de pagar
+                    if isinstance(current_tile, Utility) and not current_tile.availability(): 
+                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        image_frame += 1
+                    
+                    #Frame extra per mostra l'execució de la carta
+                    if isinstance(current_tile, (chance, community_chest)):
+                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        image_frame += 1
+                    
+                    current_tile.land_on(self.current_player())
+
+                    
+                    
+                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") 
                     image_frame += 1
                     
-                    break #Parem el bucle perquè s'ha acabat el torn del jugador
-                    
-                #TORN NORMAL. Si s'arriba aquí, significa que no ha arribat a 3 dobles o directament no n'ha fet cap
-                steps = dice1 + dice2
-                self.current_player().move(steps, NUM_TILES)
-
-                #S'executa tot allò relacionat amb la casella en la que ha caigut
-                current_tile = self._tiles[self.current_player().position()]
-
-                # Frame extra si és Utility perquè s'ha de pagar lloguer, ja que tirarà dues vegades, la primera per moure's i la segona per saber quant ha de pagar
-                if isinstance(current_tile, Utility) and not current_tile.availability(): 
-                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
-                    image_frame += 1
-                
-                #Frame extra per mostra l'execució de la carta
-                if isinstance(current_tile, (chance, community_chest)):
-                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
-                    image_frame += 1
-                
-                current_tile.land_on(self.current_player())
-
-                
-                
-                draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") 
-                image_frame += 1
-                
-                #CONDICIÓ PER A QUÈ S'ACABI EL BUCLE DEL TORN
-                if dice1 != dice2:
-                    break #Parem bucle, ja que no és doble i s'ha acabat el seu torn
+                    #CONDICIÓ PER A QUÈ S'ACABI EL BUCLE DEL TORN
+                    if dice1 != dice2:
+                        break #Parem bucle, ja que no és doble i s'ha acabat el seu torn
                 
             #Fem que l'index del jugador vagi canviant i com és una llista, ens interessa que quan arribi al 4 torni a
             #la posició 0 perquè al final, es comporta com una llista, que va del 0 al 3

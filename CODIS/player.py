@@ -29,6 +29,8 @@ class Player:
        self._num_double = 0
        self._owned_properties: list[Property] = []
        self._get_out_of_jail_free_cards = 0
+       self._turns_in_prison = 0
+       self._is_in_prison = False
 
     def num_double(self) -> int:
         """Comptador de dobles en x tirada"""
@@ -102,9 +104,15 @@ class Player:
 
     def get_out_of_jail_free_cards(self) -> int:
         return self._get_out_of_jail_free_cards
+    
+    def add_turn_in_prison(self) -> None:
+        self._turns_in_prison  += 1
 
     def turns_in_prison(self) -> int:
-        return 0
+        return self._turns_in_prison
+    
+    def is_in_prison(self) -> bool:
+        return self._is_in_prison
 
     def owned_properties(self) -> list[Property]:
         return self._owned_properties
@@ -136,6 +144,16 @@ class Player:
     def set_position(self, new_position: int) -> None:
         """Teletransporta el jugador a la posició desitjada"""
         self._position = new_position
+
+    def go_to_prison(self) -> None:
+        self._is_in_prison = True
+        self._position = 10 #Casella de la presó
+        print(f"{self._name} ha anat a la presó! :(")
+
+    def leave_prison(self) -> None:
+        self._is_in_prison = False
+        self._turns_in_prison = 0
+        print(f"{self._name} ha sortit de la presó! :)")
 
 def build_player(board: Board, data: dict[str, Any], index: int) -> Player:
     """Build a Player from JSON-like dict with 'name', 'piece', and 'color' keys."""
