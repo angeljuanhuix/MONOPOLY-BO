@@ -8,7 +8,7 @@ from deck import Deck
 
 
 class Board:
-    def __init__(self, tiles_json_path: str, chance_json_path: str, community_chest_json_path: str, players_json_path: str):
+    def __init__(self, tiles_json_path: str, chance_json_path: str, community_chest_json_path: str, players_json_path: str, num_players: int):
         #ES CARREGA L'INFORMACIÓ DE TOT EL QUE NECESSITEM DEL FITXERS JSON
 
         with open(tiles_json_path, 'r', encoding = "UTF-8") as file:
@@ -18,7 +18,7 @@ class Board:
         with open(players_json_path, 'r', encoding = "UTF-8") as file:
             data_players = json.load(file)
             #IMPORTANT, la i del tercer apartat de "build_player" és important, ja que fa referència a l'index de cada jugador
-        self._players = [build_player(self, data_players[i], i) for i in range(len(data_players))] 
+        self._players = [build_player(self, data_players[i], i) for i in range(num_players)] 
         
         self._chance_deck = Deck(chance_json_path)
         self._chance_deck.shuffle()

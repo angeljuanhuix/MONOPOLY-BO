@@ -186,5 +186,5 @@ class Player:
 def build_player(board: Board, data: dict[str, Any], index: int) -> Player:
     """Build a Player from JSON-like dict with 'name', 'piece', and 'color' keys."""
 
-    strategies: list[Strategy] = [Smart_Strategy(), Simple_Strategy(), Smart_Strategy(), Simple_Strategy()]
+    strategies: list[Strategy] = [Smart_Strategy(), Smart_Strategy(), Smart_Strategy(), Simple_Strategy()]
     return Player(board, data["name"], data["piece"], data["color"], index, strategies[index])
