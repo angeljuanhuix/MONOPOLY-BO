@@ -1,6 +1,6 @@
 import pickle
 from player import Player, build_player
-from tile import Tile, build_tile, Utility, chance, community_chest, special
+from tile import Tile, build_tile, Utility, chance, community_chest, special, Street
 import json
 import random
 from const import NUM_TILES
@@ -95,11 +95,82 @@ class Board:
         
         current_tile.land_on(self.current_player())
 
+        self.check_bankruptcy()
+
         draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") 
         image_frame += 1
 
         return image_frame
 
+    def post_movement_actions(self, image_frame: int) -> int:
+
+        from draw import draw
+        
+        player = self.current_player()
+        
+        # Vendre i hipotecar amb múltiples passades
+        action_done = True
+        while action_done:
+            action_done = False
+            for property in player.owned_properties():
+                if isinstance(property, Street):
+                    if player.wants_to_sell_hotel(property) and property.can_sell_hotel():
+                        property.sell_hotel()
+                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        image_frame += 1
+                        action_done = True
+                    if player.wants_to_sell_house(property) and property.can_sell_house():
+                        property.sell_house()
+                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        image_frame += 1
+                        action_done = True
+                if player.wants_to_mortgage(property) and property.can_mortgage():
+                    property.do_mortgage()
+                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                    image_frame += 1
+                    action_done = True
+                if player.wants_to_unmortgage(property) and property.can_unmortgage():
+                    property.do_unmortgage()
+                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                    image_frame += 1
+                    action_done = True
+        
+        # Construir amb múltiples passades
+        action_done = True
+        while action_done:
+            action_done = False
+            for property in player.owned_properties():
+                if isinstance(property, Street):
+                    if player.wants_to_build_house(property) and property.can_build_house():
+                        property.build_house()
+                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        image_frame += 1
+                        action_done = True
+                    if player.wants_to_build_hotel(property) and property.can_build_hotel():
+                        property.build_hotel()
+                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        image_frame += 1
+                        action_done = True
+
+        return image_frame
+    
+    def check_bankruptcy(self) -> None:
+        bankrupt_players = [player for player in self._players if player.broke() and not player.is_bankrupt()]
+        
+        for player in bankrupt_players:
+            print(f"{player.name()} ha fet bancarota!")
+            
+            # Alliberar propietats
+            for property in player.owned_properties():
+                property.release_property()
+            
+            # Tornar targetes de sortida de presó al piló
+            for card in player.get_out_of_jail_cards():
+                card.deck().return_get_out_of_jail_card(card)
+            
+            player.clear_jail_cards()
+            player.clear_properties()
+            player.go_bankrupt()
     def play(self) -> None: 
         """
         Permet jugar al monopoly i és on hi ha tot el codi important
@@ -116,7 +187,7 @@ class Board:
         
         image_frame += 1
 
-        for _ in range(100): # Quan ho tingui més avançat, aquí posar que de range vagi fins quan quedi una persona FER UN WHILE persones_vives > 1
+        while sum(1 for p in self._players if not p.is_bankrupt()) > 1 and image_frame < 500: # Quan ho tingui més avançat, aquí posar que de range vagi fins quan quedi una persona FER UN WHILE persones_vives > 1
             
             self._num_double = 0
             
@@ -173,8 +244,12 @@ class Board:
                     #TORN NORMAL. Si s'arriba aquí, significa que no ha arribat a 3 dobles o directament no n'ha fet cap
                     self.current_player().move(steps, NUM_TILES)
 
-                    #S'executa tot el frame
+                    #S'executa tot el necessari
                     image_frame = self.execute_tile(image_frame)
+                    
+                    if not self.current_player().is_bankrupt():
+                        image_frame = self.post_movement_actions(image_frame)
+                    
                     
                     #CONDICIÓ PER A QUÈ S'ACABI EL BUCLE DEL TORN
                     if dice1 != dice2:
@@ -183,7 +258,9 @@ class Board:
             #Fem que l'index del jugador vagi canviant i com és una llista, ens interessa que quan arribi al 4 torni a
             #la posició 0 perquè al final, es comporta com una llista, que va del 0 al 3
 
-            self._current_player_index = (self._current_player_index + 1) % 4 
+            self._current_player_index = (self._current_player_index + 1) % len(self._players)
+            while self.current_player().is_bankrupt():
+                self._current_player_index = (self._current_player_index + 1) % len(self._players) 
             
                                                                               
 

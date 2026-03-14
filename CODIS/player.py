@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
-from const import GO_SALARY
-from strategies import Strategy, Simple_Strategy
+from const import GO_SALARY, START_MONEY
+from strategies import Strategy, Simple_Strategy, Smart_Strategy
 if TYPE_CHECKING:
     from board import Board
     from tile import Property, Street
@@ -26,12 +26,13 @@ class Player:
        self._index = index
        self._strategy = strategy
        self._position = 0
-       self._money = 1500
+       self._money = START_MONEY
        self._num_double = 0
        self._owned_properties: list[Property] = []
        self._get_out_of_jail_cards: list[Card] = []
        self._turns_in_prison = 0
        self._is_in_prison = False
+       self._is_bankrupt = False
 
     def num_double(self) -> int:
         """Comptador de dobles en x tirada"""
@@ -94,6 +95,15 @@ class Player:
 
     def index(self) -> int:
         return self._index
+    
+    def is_bankrupt(self) -> bool:
+        """Indica si el jugador està en bancarota o no per si pot seguir jugant o no"""
+        return self._is_bankrupt
+
+    def go_bankrupt(self) -> None:
+        "Per marcar que ja no jugui més"
+        self._is_bankrupt = True
+        self._money = 0
 
     def broke(self) -> bool:
         """Return True if the player has negative money."""
@@ -105,6 +115,9 @@ class Player:
     def position(self) -> int:
         return self._position
     
+    def get_out_of_jail_cards(self) -> list[Card]:
+        return self._get_out_of_jail_cards
+    
     def add_get_out_of_jail_free_card(self, card: Card) -> None:
         self._get_out_of_jail_cards.append(card)
 
@@ -113,6 +126,9 @@ class Player:
     
     def use_get_out_of_jail_card(self) -> Card:
         return self._get_out_of_jail_cards.pop()
+    
+    def clear_jail_cards(self) -> None:
+        self._get_out_of_jail_cards = []
     
     def add_turn_in_prison(self) -> None:
         self._turns_in_prison  += 1
@@ -128,6 +144,9 @@ class Player:
     
     def add_property(self, property: Property) -> None:
         self._owned_properties.append(property)
+
+    def clear_properties(self) -> None:
+        self._owned_properties = []
     
     def pay(self, amount: int) -> int:
         self._money -= amount
@@ -167,5 +186,5 @@ class Player:
 def build_player(board: Board, data: dict[str, Any], index: int) -> Player:
     """Build a Player from JSON-like dict with 'name', 'piece', and 'color' keys."""
 
-    strategies = [Simple_Strategy(), Simple_Strategy(), Simple_Strategy(), Simple_Strategy()]
+    strategies: list[Strategy] = [Smart_Strategy(), Simple_Strategy(), Smart_Strategy(), Simple_Strategy()]
     return Player(board, data["name"], data["piece"], data["color"], index, strategies[index])

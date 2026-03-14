@@ -199,7 +199,7 @@ class PayEachPlayer(Card):
 
     def execute(self, player: Player) -> None:
         for other_player in player.board().players():
-            if other_player != player and not other_player.broke():
+            if other_player != player and not other_player.is_bankrupt():
                 player.pay(self._amountPerPlayer)
                 other_player.receive(self._amountPerPlayer)
                 
@@ -212,7 +212,7 @@ class CollectFromPlayers(Card):
 
     def execute(self, player: Player) -> None:
         for other_player in player.board().players():
-            if other_player != player and not other_player.broke():
+            if other_player != player and not other_player.is_bankrupt():
                 other_player.pay(self._amountPerPlayer)
                 player.receive(self._amountPerPlayer)
                 

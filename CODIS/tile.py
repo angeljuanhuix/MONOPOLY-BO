@@ -93,6 +93,11 @@ class Property(Tile):
         """
         return self._owner == None
     
+    def release_property(self) -> None:
+        """Allibera la propietat (torna al banc)"""
+        self._owner = None
+        self._is_mortgaged = False
+    
     def buy(self, player: Player) -> None:
         """El jugador compra la propietat"""
         player.pay(self._price)
@@ -201,7 +206,11 @@ class Street(Property):
         """Això fa que tile.color funcioni sense parèntesis"""
         return self._color
     
-    
+    def house_cost(self) -> int:
+        return self._house_cost
+
+    def hotel_cost(self) -> int:
+        return self._hotel_cost
     
     def has_monopoly(self) -> bool:
         """
