@@ -6,6 +6,7 @@ from strategies import Strategy, Simple_Strategy
 if TYPE_CHECKING:
     from board import Board
     from tile import Property, Street
+    from card import Card
 
 
 class Player:
@@ -28,7 +29,7 @@ class Player:
        self._money = 1500
        self._num_double = 0
        self._owned_properties: list[Property] = []
-       self._get_out_of_jail_free_cards = 0
+       self._get_out_of_jail_cards: list[Card] = []
        self._turns_in_prison = 0
        self._is_in_prison = False
 
@@ -69,6 +70,11 @@ class Player:
         vendre una casa o no"""
         return self._strategy.desire_of_selling_house(self, street)
     
+    def wants_to_sell_hotel(self, street: Street) -> bool:
+        """Segons l'estratègia del jugador, es retorna si vol 
+        vendre un hotel o no"""
+        return self._strategy.desire_of_selling_hotel(self, street)
+    
     def wants_to_mortgage(self, property: Property) -> bool:
         """Segons l'estratègia del jugador, es retorna si vol 
         hipotecar una propietat o no"""
@@ -99,11 +105,14 @@ class Player:
     def position(self) -> int:
         return self._position
     
-    def add_get_out_of_jail_free_card(self) -> None:
-        self._get_out_of_jail_free_cards += 1
+    def add_get_out_of_jail_free_card(self, card: Card) -> None:
+        self._get_out_of_jail_cards.append(card)
 
     def get_out_of_jail_free_cards(self) -> int:
-        return self._get_out_of_jail_free_cards
+        return len(self._get_out_of_jail_cards)
+    
+    def use_get_out_of_jail_card(self) -> Card:
+        return self._get_out_of_jail_cards.pop()
     
     def add_turn_in_prison(self) -> None:
         self._turns_in_prison  += 1

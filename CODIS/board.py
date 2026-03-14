@@ -1,6 +1,6 @@
 import pickle
 from player import Player, build_player
-from tile import Tile, build_tile, Utility, chance, community_chest
+from tile import Tile, build_tile, Utility, chance, community_chest, special
 import json
 import random
 from const import NUM_TILES
@@ -70,6 +70,35 @@ class Board:
     def turn_player(self) -> bool:
         """Retorna si un jugador ha fet el seu torn o no"""
         return self._turn_player
+    
+    def execute_tile(self, image_frame: int) -> int:
+
+        from draw import draw
+        #Assignem la casella on cau
+        current_tile = self._tiles[self.current_player().position()]
+
+        # Frame extra si és Utility perquè s'ha de pagar lloguer, ja que tirarà dues vegades, la primera per moure's i la segona per saber quant ha de pagar
+        if isinstance(current_tile, Utility) and not current_tile.availability(): 
+            draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+            image_frame += 1
+                    
+        #Frame extra per mostrar l'execució de la carta
+        if isinstance(current_tile, (chance, community_chest)):
+            draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+            image_frame += 1
+
+        #Frame extra per quan cau en el Go To Jail
+        if isinstance(current_tile, (special)) and current_tile.name() == "Go To Jail":
+            draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+            image_frame += 1
+                    
+        
+        current_tile.land_on(self.current_player())
+
+        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") 
+        image_frame += 1
+
+        return image_frame
 
     def play(self) -> None: 
         """
@@ -95,17 +124,35 @@ class Board:
             while self._turn_player:
                 
                 dice1, dice2 = self.current_dice() #Assignem valors a les dues tirades de daus
-                self.current_player().add_turn_in_prison()
+                steps = dice1 + dice2
 
                 if self.current_player().is_in_prison():
+                    self.current_player().add_turn_in_prison()
+
                     if dice1 == dice2:
                         self.current_player().leave_prison()
+                        self.current_player().move(steps, NUM_TILES)
+                        image_frame = self.execute_tile(image_frame)
 
-                    if self.current_player().turns_in_prison() == 3:
+                    elif self.current_player().get_out_of_jail_free_cards() > 0:
+                        
+                        card = self.current_player().use_get_out_of_jail_card()
+                        card.deck().return_get_out_of_jail_card(card)
                         self.current_player().leave_prison()
+                        self.current_player().move(steps, NUM_TILES)
+                        image_frame = self.execute_tile(image_frame)
+
+                    elif self.current_player().turns_in_prison() == 3:
+                        self.current_player().leave_prison()
+                        self.current_player().move(steps, NUM_TILES)
+                        image_frame = self.execute_tile(image_frame)
                     
-                    if self.current_player().get_out_of_jail_free_cards() > 0:
-                        self.current_player().leave_prison()
+                    else:
+                        
+                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        image_frame += 1
+                    
+                    break
 
                 else: # Si no hi és, doncs tot normal
 
@@ -124,28 +171,10 @@ class Board:
                         break #Parem el bucle perquè s'ha acabat el torn del jugador
                         
                     #TORN NORMAL. Si s'arriba aquí, significa que no ha arribat a 3 dobles o directament no n'ha fet cap
-                    steps = dice1 + dice2
                     self.current_player().move(steps, NUM_TILES)
 
-                    #Assignem la casella on cau
-                    current_tile = self._tiles[self.current_player().position()]
-
-                    # Frame extra si és Utility perquè s'ha de pagar lloguer, ja que tirarà dues vegades, la primera per moure's i la segona per saber quant ha de pagar
-                    if isinstance(current_tile, Utility) and not current_tile.availability(): 
-                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
-                        image_frame += 1
-                    
-                    #Frame extra per mostra l'execució de la carta
-                    if isinstance(current_tile, (chance, community_chest)):
-                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
-                        image_frame += 1
-                    
-                    current_tile.land_on(self.current_player())
-
-                    
-                    
-                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") 
-                    image_frame += 1
+                    #S'executa tot el frame
+                    image_frame = self.execute_tile(image_frame)
                     
                     #CONDICIÓ PER A QUÈ S'ACABI EL BUCLE DEL TORN
                     if dice1 != dice2:

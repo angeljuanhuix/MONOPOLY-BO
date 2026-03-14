@@ -10,7 +10,6 @@
 <rect x="818.1818181818182" y="909.0909090909091" width="90.9090909090909" height="90.9090909090909" fill="#8B4513" stroke="black" stroke-width="1" />
 <path d="M818.1818181818182,931.8181818181819 L909.0909090909091,931.8181818181819" stroke="black" stroke-width="1" />
 <text x="863.6363636363637" y="954.5454545454546" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Old Kent Road £60</text>
-<text x="901.0909090909091" y="994.0" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
 <rect x="727.2727272727273" y="909.0909090909091" width="90.9090909090909" height="90.9090909090909" fill="#98FB98" stroke="black" stroke-width="1" />
 <text x="772.7272727272727" y="937.0909090909091" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">💰</text>
 <text x="772.7272727272727" y="954.5454545454546" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Community Chest</text>
@@ -34,7 +33,6 @@
 <rect x="181.81818181818187" y="909.0909090909091" width="90.9090909090909" height="90.9090909090909" fill="#87CEEB" stroke="black" stroke-width="1" />
 <path d="M181.81818181818187,931.8181818181819 L272.72727272727275,931.8181818181819" stroke="black" stroke-width="1" />
 <text x="227.2727272727273" y="954.5454545454546" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Euston Road £100</text>
-<text x="264.72727272727275" y="994.0" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
 <rect x="90.90909090909099" y="909.0909090909091" width="90.9090909090909" height="90.9090909090909" fill="#87CEEB" stroke="black" stroke-width="1" />
 <path d="M90.90909090909099,931.8181818181819 L181.8181818181819,931.8181818181819" stroke="black" stroke-width="1" />
 <text x="136.36363636363643" y="954.5454545454546" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Pentonville Road £120</text>
@@ -45,15 +43,15 @@
 <rect x="0" y="818.1818181818182" width="90.9090909090909" height="90.9090909090909" fill="#FF69B4" stroke="black" stroke-width="1" />
 <path d="M0,840.909090909091 L90.9090909090909,840.909090909091" stroke="black" stroke-width="1" />
 <text x="45.45454545454545" y="863.6363636363637" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Pall Mall £140</text>
-<text x="82.9090909090909" y="903.0909090909091" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐈</text>
+<text x="82.9090909090909" y="903.0909090909091" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🚘</text>
 <rect x="0" y="727.2727272727273" width="90.9090909090909" height="90.9090909090909" fill="#E0E0E0" stroke="black" stroke-width="1" />
 <text x="45.45454545454545" y="755.2727272727273" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">💡</text>
 <text x="45.45454545454545" y="772.7272727272727" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Electric Company £150</text>
-<text x="82.9090909090909" y="812.1818181818181" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐈</text>
+<text x="82.9090909090909" y="812.1818181818181" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
 <rect x="0" y="636.3636363636364" width="90.9090909090909" height="90.9090909090909" fill="#FF69B4" stroke="black" stroke-width="1" />
 <path d="M0,659.0909090909091 L90.9090909090909,659.0909090909091" stroke="black" stroke-width="1" />
 <text x="45.45454545454545" y="681.8181818181819" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Whitehall £140</text>
-<text x="82.9090909090909" y="721.2727272727273" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🚘</text>
+<text x="82.9090909090909" y="721.2727272727273" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐧</text>
 <rect x="0" y="545.4545454545455" width="90.9090909090909" height="90.9090909090909" fill="#FF69B4" stroke="black" stroke-width="1" />
 <path d="M0,568.1818181818182 L90.9090909090909,568.1818181818182" stroke="black" stroke-width="1" />
 <text x="45.45454545454545" y="590.909090909091" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Northumberland Avenue £160</text>
@@ -61,7 +59,7 @@
 <rect x="0" y="454.5454545454545" width="90.9090909090909" height="90.9090909090909" fill="#E0E0E0" stroke="black" stroke-width="1" />
 <text x="45.45454545454545" y="482.5454545454545" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚆</text>
 <text x="45.45454545454545" y="499.99999999999994" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Marylebone Station £200</text>
-<text x="82.9090909090909" y="539.4545454545454" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
+<text x="82.9090909090909" y="539.4545454545454" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐧</text>
 <rect x="0" y="363.6363636363636" width="90.9090909090909" height="90.9090909090909" fill="#FFA500" stroke="black" stroke-width="1" />
 <path d="M0,386.3636363636364 L90.9090909090909,386.3636363636364" stroke="black" stroke-width="1" />
 <text x="45.45454545454545" y="409.09090909090907" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Bow Street £180</text>
@@ -76,7 +74,7 @@
 <rect x="0" y="90.90909090909099" width="90.9090909090909" height="90.9090909090909" fill="#FFA500" stroke="black" stroke-width="1" />
 <path d="M0,113.63636363636371 L90.9090909090909,113.63636363636371" stroke="black" stroke-width="1" />
 <text x="45.45454545454545" y="136.36363636363643" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Vine Street £200</text>
-<text x="82.9090909090909" y="175.8181818181819" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐧</text>
+<text x="82.9090909090909" y="175.8181818181819" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
 <rect x="0" y="0.0" width="90.9090909090909" height="90.9090909090909" fill="#87CEEB" stroke="black" stroke-width="1" />
 <text x="45.45454545454545" y="28.0" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚗</text>
 <text x="45.45454545454545" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Free Parking</text>
@@ -94,18 +92,19 @@
 <rect x="363.6363636363636" y="0" width="90.9090909090909" height="90.9090909090909" fill="#DC143C" stroke="black" stroke-width="1" />
 <path d="M363.6363636363636,22.727272727272727 L454.5454545454545,22.727272727272727" stroke="black" stroke-width="1" />
 <text x="409.09090909090907" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Trafalgar Square £240</text>
-<text x="446.5454545454545" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐈</text>
+<text x="446.5454545454545" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🚘</text>
 <rect x="454.5454545454545" y="0" width="90.9090909090909" height="90.9090909090909" fill="#E0E0E0" stroke="black" stroke-width="1" />
 <text x="499.99999999999994" y="28" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚆</text>
 <text x="499.99999999999994" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Fenchurch St Station £200</text>
-<text x="537.4545454545454" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🚘</text>
+<text x="537.4545454545454" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
 <rect x="545.4545454545455" y="0" width="90.9090909090909" height="90.9090909090909" fill="#FFD700" stroke="black" stroke-width="1" />
 <path d="M545.4545454545455,22.727272727272727 L636.3636363636364,22.727272727272727" stroke="black" stroke-width="1" />
 <text x="590.909090909091" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Leicester Square £260</text>
-<text x="628.3636363636364" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐧</text>
+<text x="628.3636363636364" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
 <rect x="636.3636363636364" y="0" width="90.9090909090909" height="90.9090909090909" fill="#FFD700" stroke="black" stroke-width="1" />
 <path d="M636.3636363636364,22.727272727272727 L727.2727272727273,22.727272727272727" stroke="black" stroke-width="1" />
 <text x="681.8181818181819" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Coventry Street £260</text>
+<text x="719.2727272727273" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
 <rect x="727.2727272727273" y="0" width="90.9090909090909" height="90.9090909090909" fill="#E0E0E0" stroke="black" stroke-width="1" />
 <text x="772.7272727272727" y="28" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚰</text>
 <text x="772.7272727272727" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Water Works £150</text>
@@ -113,7 +112,7 @@
 <rect x="818.1818181818181" y="0" width="90.9090909090909" height="90.9090909090909" fill="#FFD700" stroke="black" stroke-width="1" />
 <path d="M818.1818181818181,22.727272727272727 L909.090909090909,22.727272727272727" stroke="black" stroke-width="1" />
 <text x="863.6363636363636" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Piccadilly £280</text>
-<text x="901.090909090909" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
+<text x="901.090909090909" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐧</text>
 <rect x="909.090909090909" y="0" width="90.9090909090909" height="90.9090909090909" fill="#F5F5DC" stroke="black" stroke-width="1" />
 <text x="954.5454545454545" y="28" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">👮</text>
 <text x="954.5454545454545" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Go To Jail</text>
@@ -131,11 +130,11 @@
 <rect x="909.0909090909091" y="363.6363636363636" width="90.9090909090909" height="90.9090909090909" fill="#228B22" stroke="black" stroke-width="1" />
 <path d="M909.0909090909091,386.3636363636364 L1000.0,386.3636363636364" stroke="black" stroke-width="1" />
 <text x="954.5454545454546" y="409.09090909090907" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Bond Street £320</text>
-<text x="992.0" y="448.5454545454545" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐧</text>
+<text x="992.0" y="448.5454545454545" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🚘</text>
 <rect x="909.0909090909091" y="454.5454545454545" width="90.9090909090909" height="90.9090909090909" fill="#E0E0E0" stroke="black" stroke-width="1" />
 <text x="954.5454545454546" y="482.5454545454545" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚆</text>
 <text x="954.5454545454546" y="499.99999999999994" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Liverpool Street Station £200</text>
-<text x="992.0" y="539.4545454545454" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🐈</text>
+<text x="992.0" y="539.4545454545454" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
 <rect x="909.0909090909091" y="545.4545454545455" width="90.9090909090909" height="90.9090909090909" fill="#FFA500" stroke="black" stroke-width="1" />
 <text x="954.5454545454546" y="573.4545454545455" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">❓</text>
 <text x="954.5454545454546" y="590.909090909091" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Chance</text>
@@ -149,85 +148,80 @@
 <rect x="909.0909090909091" y="818.1818181818181" width="90.9090909090909" height="90.9090909090909" fill="#7070D0" stroke="black" stroke-width="1" />
 <path d="M909.0909090909091,840.9090909090909 L1000.0,840.9090909090909" stroke="black" stroke-width="1" />
 <text x="954.5454545454546" y="863.6363636363636" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Mayfair £400</text>
-<text x="992.0" y="903.090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🚘</text>
-<circle cx="863.6363636363636" cy="45.45454545454545" r="16" fill="LightCoral" stroke="black" stroke-width="2" />
-<text x="863.6363636363636" y="45.45454545454545" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚘</text>
-<circle cx="409.09090909090907" cy="954.5454545454546" r="16" fill="LightBlue" stroke="black" stroke-width="2" />
-<text x="409.09090909090907" y="954.5454545454546" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🐧</text>
-<circle cx="772.7272727272727" cy="45.45454545454545" r="16" fill="Silver" stroke="black" stroke-width="2" />
-<text x="772.7272727272727" y="45.45454545454545" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🛩</text>
-<circle cx="45.45454545454545" cy="863.6363636363637" r="16" fill="Gold" stroke="black" stroke-width="2" />
-<text x="45.45454545454545" y="863.6363636363637" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🐈</text>
+<text x="992.0" y="903.090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🛩</text>
+<circle cx="499.99999999999994" cy="954.5454545454546" r="16" fill="LightCoral" stroke="black" stroke-width="2" />
+<text x="499.99999999999994" y="954.5454545454546" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🚘</text>
+<circle cx="45.45454545454545" cy="227.2727272727273" r="16" fill="LightBlue" stroke="black" stroke-width="2" />
+<text x="45.45454545454545" y="227.2727272727273" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🐧</text>
+<circle cx="45.45454545454545" cy="136.36363636363643" r="16" fill="Silver" stroke="black" stroke-width="2" />
+<text x="45.45454545454545" y="136.36363636363643" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🛩</text>
+<circle cx="954.5454545454546" cy="409.09090909090907" r="16" fill="Gold" stroke="black" stroke-width="2" />
+<text x="954.5454545454546" y="409.09090909090907" font-size="18" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🐈</text>
 <text x="500.0" y="508.0" font-size="60" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🤑</text>
 <rect x="140.9090909090909" y="140.9090909090909" width="334.0909090909091" height="334.0909090909091" fill="LightCoral" stroke="black" stroke-width="1" />
 <text x="148.9090909090909" y="162.9090909090909" font-size="20" font-weight="bold" font-family="Helvetica">🚘 Jordi</text>
-<text x="148.9090909090909" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £1220 · 💳 0 · ⛓️ 0</text>
+<text x="148.9090909090909" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £555 · 💳 0 · ⛓️ 0</text>
 <text x="148.9090909090909" y="192.9090909090909" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
 <text x="148.9090909090909" y="209.9090909090909" font-size="14" font-family="Helvetica">🚆 </text>
 <text x="168.9090909090909" y="209.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Kings Cross Station</text>
 <circle cx="154.9090909090909" cy="221.9090909090909" r="5" fill="#87CEEB" stroke="black" stroke-width="0.5" />
 <text x="168.9090909090909" y="226.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Pentonville Road</text>
 <circle cx="154.9090909090909" cy="238.9090909090909" r="5" fill="#FF69B4" stroke="black" stroke-width="0.5" />
-<text x="168.9090909090909" y="243.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Whitehall</text>
+<text x="168.9090909090909" y="243.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Pall Mall</text>
 <circle cx="154.9090909090909" cy="255.90909090909088" r="5" fill="#DC143C" stroke="black" stroke-width="0.5" />
 <text x="168.9090909090909" y="260.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Strand</text>
-<text x="148.9090909090909" y="277.9090909090909" font-size="14" font-family="Helvetica">🚆 </text>
-<text x="168.9090909090909" y="277.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Fenchurch St Station</text>
+<circle cx="154.9090909090909" cy="272.9090909090909" r="5" fill="#DC143C" stroke="black" stroke-width="0.5" />
+<text x="168.9090909090909" y="277.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Trafalgar Square</text>
 <text x="148.9090909090909" y="294.9090909090909" font-size="14" font-family="Helvetica">🚰 </text>
 <text x="168.9090909090909" y="294.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Water Works</text>
-<circle cx="154.9090909090909" cy="306.9090909090909" r="5" fill="#7070D0" stroke="black" stroke-width="0.5" />
-<text x="168.9090909090909" y="311.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Park Lane</text>
+<circle cx="154.9090909090909" cy="306.9090909090909" r="5" fill="#228B22" stroke="black" stroke-width="0.5" />
+<text x="168.9090909090909" y="311.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Bond Street</text>
 <circle cx="154.9090909090909" cy="323.9090909090909" r="5" fill="#7070D0" stroke="black" stroke-width="0.5" />
-<text x="168.9090909090909" y="328.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Mayfair</text>
+<text x="168.9090909090909" y="328.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Park Lane</text>
 <rect x="525.0" y="140.9090909090909" width="334.0909090909091" height="334.0909090909091" fill="LightBlue" stroke="black" stroke-width="1" />
 <text x="533.0" y="162.9090909090909" font-size="20" font-weight="bold" font-family="Helvetica">🐧 Mireia</text>
-<text x="533.0" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £315 · 💳 0 · ⛓️ 0</text>
+<text x="533.0" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £1019 · 💳 0 · ⛓️ 0</text>
 <text x="533.0" y="192.9090909090909" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
 <circle cx="539.0" cy="204.9090909090909" r="5" fill="#87CEEB" stroke="black" stroke-width="0.5" />
 <text x="553.0" y="209.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">The Angel Islington</text>
 <circle cx="539.0" cy="221.9090909090909" r="5" fill="#FF69B4" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="226.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Northumberland Avenue</text>
-<circle cx="539.0" cy="238.9090909090909" r="5" fill="#FFA500" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="243.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Vine Street</text>
-<circle cx="539.0" cy="255.90909090909088" r="5" fill="#FFD700" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="260.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Leicester Square</text>
-<circle cx="539.0" cy="272.9090909090909" r="5" fill="#228B22" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="277.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Regent Street</text>
+<text x="553.0" y="226.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Whitehall</text>
+<circle cx="539.0" cy="238.9090909090909" r="5" fill="#FF69B4" stroke="black" stroke-width="0.5" />
+<text x="553.0" y="243.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Northumberland Avenue</text>
+<text x="533.0" y="260.9090909090909" font-size="14" font-family="Helvetica">🚆 </text>
+<text x="553.0" y="260.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Marylebone Station</text>
+<circle cx="539.0" cy="272.9090909090909" r="5" fill="#FFD700" stroke="black" stroke-width="0.5" />
+<text x="553.0" y="277.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Piccadilly</text>
 <circle cx="539.0" cy="289.9090909090909" r="5" fill="#228B22" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="294.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Bond Street</text>
+<text x="553.0" y="294.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Regent Street</text>
 <rect x="525.0" y="525.0" width="334.0909090909091" height="334.0909090909091" fill="Silver" stroke="black" stroke-width="1" />
 <text x="533.0" y="547.0" font-size="20" font-weight="bold" font-family="Helvetica">🛩 Arnau</text>
-<text x="533.0" y="561.0" font-size="14" font-family="Helvetica">💵 £655 · 💳 0 · ⛓️ 0</text>
+<text x="533.0" y="561.0" font-size="14" font-family="Helvetica">💵 £317 · 💳 0 · ⛓️ 0</text>
 <text x="533.0" y="577.0" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
-<circle cx="539.0" cy="589.0" r="5" fill="#8B4513" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="594.0" font-size="14" font-style="normal" font-family="Helvetica">Old Kent Road</text>
-<circle cx="539.0" cy="606.0" r="5" fill="#87CEEB" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="611.0" font-size="14" font-style="normal" font-family="Helvetica">Euston Road</text>
-<text x="533.0" y="628.0" font-size="14" font-family="Helvetica">🚆 </text>
-<text x="553.0" y="628.0" font-size="14" font-style="normal" font-family="Helvetica">Marylebone Station</text>
-<circle cx="539.0" cy="640.0" r="5" fill="#FFA500" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="645.0" font-size="14" font-style="normal" font-family="Helvetica">Bow Street</text>
-<circle cx="539.0" cy="657.0" r="5" fill="#DC143C" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="662.0" font-size="14" font-style="normal" font-family="Helvetica">Fleet Street</text>
+<text x="533.0" y="594.0" font-size="14" font-family="Helvetica">💡 </text>
+<text x="553.0" y="594.0" font-size="14" font-style="normal" font-family="Helvetica">Electric Company</text>
+<circle cx="539.0" cy="606.0" r="5" fill="#FFA500" stroke="black" stroke-width="0.5" />
+<text x="553.0" y="611.0" font-size="14" font-style="normal" font-family="Helvetica">Bow Street</text>
+<circle cx="539.0" cy="623.0" r="5" fill="#FFA500" stroke="black" stroke-width="0.5" />
+<text x="553.0" y="628.0" font-size="14" font-style="normal" font-family="Helvetica">Vine Street</text>
+<circle cx="539.0" cy="640.0" r="5" fill="#DC143C" stroke="black" stroke-width="0.5" />
+<text x="553.0" y="645.0" font-size="14" font-style="normal" font-family="Helvetica">Fleet Street</text>
+<text x="533.0" y="662.0" font-size="14" font-family="Helvetica">🚆 </text>
+<text x="553.0" y="662.0" font-size="14" font-style="normal" font-family="Helvetica">Fenchurch St Station</text>
 <circle cx="539.0" cy="674.0" r="5" fill="#FFD700" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="679.0" font-size="14" font-style="normal" font-family="Helvetica">Piccadilly</text>
-<circle cx="539.0" cy="691.0" r="5" fill="#228B22" stroke="black" stroke-width="0.5" />
-<text x="553.0" y="696.0" font-size="14" font-style="normal" font-family="Helvetica">Oxford Street</text>
+<text x="553.0" y="679.0" font-size="14" font-style="normal" font-family="Helvetica">Leicester Square</text>
+<circle cx="539.0" cy="691.0" r="5" fill="#FFD700" stroke="black" stroke-width="0.5" />
+<text x="553.0" y="696.0" font-size="14" font-style="normal" font-family="Helvetica">Coventry Street</text>
+<circle cx="539.0" cy="708.0" r="5" fill="#228B22" stroke="black" stroke-width="0.5" />
+<text x="553.0" y="713.0" font-size="14" font-style="normal" font-family="Helvetica">Oxford Street</text>
+<text x="533.0" y="730.0" font-size="14" fill="gray" font-family="Helvetica">+2 more</text>
 <rect x="140.9090909090909" y="525.0" width="334.0909090909091" height="334.0909090909091" fill="Gold" stroke="black" stroke-width="1" />
 <text x="148.9090909090909" y="547.0" font-size="20" font-weight="bold" font-family="Helvetica">🐈 Marta</text>
-<text x="148.9090909090909" y="561.0" font-size="14" font-family="Helvetica">💵 £1350 · 💳 1 · ⛓️ 0</text>
+<text x="148.9090909090909" y="561.0" font-size="14" font-family="Helvetica">💵 £1339 · 💳 0 · ⛓️ 0</text>
 <text x="148.9090909090909" y="577.0" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
-<circle cx="154.9090909090909" cy="589.0" r="5" fill="#FF69B4" stroke="black" stroke-width="0.5" />
-<text x="168.9090909090909" y="594.0" font-size="14" font-style="normal" font-family="Helvetica">Pall Mall</text>
-<text x="148.9090909090909" y="611.0" font-size="14" font-family="Helvetica">💡 </text>
-<text x="168.9090909090909" y="611.0" font-size="14" font-style="normal" font-family="Helvetica">Electric Company</text>
-<circle cx="154.9090909090909" cy="623.0" r="5" fill="#FFA500" stroke="black" stroke-width="0.5" />
-<text x="168.9090909090909" y="628.0" font-size="14" font-style="normal" font-family="Helvetica">Marlborough Street</text>
-<circle cx="154.9090909090909" cy="640.0" r="5" fill="#DC143C" stroke="black" stroke-width="0.5" />
-<text x="168.9090909090909" y="645.0" font-size="14" font-style="normal" font-family="Helvetica">Trafalgar Square</text>
-<text x="148.9090909090909" y="662.0" font-size="14" font-family="Helvetica">🚆 </text>
-<text x="168.9090909090909" y="662.0" font-size="14" font-style="normal" font-family="Helvetica">Liverpool Street Station</text>
-<text x="749.0909090909091" y="813.0909090909091" font-size="72" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">⚁</text>
-<text x="813.0909090909091" y="813.0909090909091" font-size="72" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">⚄</text>
+<circle cx="154.9090909090909" cy="589.0" r="5" fill="#FFA500" stroke="black" stroke-width="0.5" />
+<text x="168.9090909090909" y="594.0" font-size="14" font-style="normal" font-family="Helvetica">Marlborough Street</text>
+<text x="365.0" y="813.0909090909091" font-size="72" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">⚀</text>
+<text x="429.0" y="813.0909090909091" font-size="72" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">⚁</text>
 </g>
 </svg>

@@ -5,6 +5,7 @@ from const import GO_SALARY
 from tile import Street
 if TYPE_CHECKING:
     from player import Player
+    from deck import Deck
 
 class Card:
 
@@ -19,6 +20,7 @@ class Card:
         self._title = title
         self._description = description
         self._action = action
+        self._deck = None
     
     def id(self) -> int:
         return self._id
@@ -31,6 +33,13 @@ class Card:
     
     def action(self) -> str:
         return self._action
+    
+    def set_deck(self, deck: Deck) -> None:
+        self._deck = deck
+
+    def deck(self) -> Deck:
+        assert self._deck is not None #Sabem que sempre que s'utilitza això mai és None
+        return self._deck
     
     def execute(self, player: Player) -> None:
         raise NotImplementedError
@@ -143,7 +152,7 @@ class GetOutOfJailCard(Card):
         self._keepCard = keepCard
 
     def execute(self, player: Player) -> None:
-        player.add_get_out_of_jail_free_card()
+        player.add_get_out_of_jail_free_card(self)
         print(f"{player.name()} li ha tocat <{self._title}>. Té {player.get_out_of_jail_free_cards()} targeta/es de sortida de presó!")
 
 class CollectMoney(Card):
