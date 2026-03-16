@@ -39,7 +39,7 @@ class Simple_Strategy(Strategy):
 
     def desire_of_buying(self, player: Player, property: Property) -> bool:
         """Retorna un booleà si el jugador pot o no comprar"""
-        return player.money() >= property.price
+        return player.money() >= property.price 
     
     def desire_of_building_house(self, player: Player, street: Street) -> bool:
         """Retorna un booleà indicant si en aquesta estratègia es vol construir cases o no"""
@@ -69,8 +69,8 @@ class Smart_Strategy(Strategy):
     """Estratègia intel·ligent: compra sempre, construeix sempre que pot,
     hipoteca/ven si té menys de 300$ i deshipoteca si té més de 500$"""
 
-    MINIMUM_MONEY = 100
-    UNMORTGAGE_MONEY = 200
+    MINIMUM_MONEY = 150
+    UNMORTGAGE_MONEY = 300
 
     def desire_of_buying(self, player: Player, property: Property) -> bool:
         """Retorna un booleà si el jugador pot o no comprar"""

@@ -33,10 +33,6 @@ class Player:
        self._turns_in_prison = 0
        self._is_in_prison = False
        self._is_bankrupt = False
-
-    def num_double(self) -> int:
-        """Comptador de dobles en x tirada"""
-        return self._num_double
     
     def board(self) -> Board:
         return self._board
@@ -186,5 +182,5 @@ class Player:
 def build_player(board: Board, data: dict[str, Any], index: int) -> Player:
     """Build a Player from JSON-like dict with 'name', 'piece', and 'color' keys."""
 
-    strategies: list[Strategy] = [Smart_Strategy(), Smart_Strategy(), Smart_Strategy(), Simple_Strategy()]
+    strategies: list[Strategy] = [Smart_Strategy(), Simple_Strategy(), Smart_Strategy(), Simple_Strategy()]
     return Player(board, data["name"], data["piece"], data["color"], index, strategies[index])

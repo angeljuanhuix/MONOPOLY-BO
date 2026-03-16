@@ -187,7 +187,7 @@ class Board:
         
         image_frame += 1
 
-        while sum(1 for p in self._players if not p.is_bankrupt()) > 1 and image_frame < 500: # Quan ho tingui més avançat, aquí posar que de range vagi fins quan quedi una persona FER UN WHILE persones_vives > 1
+        while sum(1 for p in self._players if not p.is_bankrupt()) > 1 and image_frame < 600: 
             
             self._num_double = 0
             
@@ -252,7 +252,7 @@ class Board:
                     
                     
                     #CONDICIÓ PER A QUÈ S'ACABI EL BUCLE DEL TORN
-                    if dice1 != dice2:
+                    if dice1 != dice2 or self.current_player().is_bankrupt() or self.current_player().is_in_prison():
                         break #Parem bucle, ja que no és doble i s'ha acabat el seu torn
                 
             #Fem que l'index del jugador vagi canviant i com és una llista, ens interessa que quan arribi al 4 torni a
