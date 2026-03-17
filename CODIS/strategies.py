@@ -67,7 +67,7 @@ class Simple_Strategy(Strategy):
     
 class Smart_Strategy(Strategy):
     """Estratègia intel·ligent: compra sempre, construeix sempre que pot,
-    hipoteca/ven si té menys de 300$ i deshipoteca si té més de 500$"""
+    hipoteca/ven si té menys de 150$ i deshipoteca si té més de 300$"""
 
     MINIMUM_MONEY = 150
     UNMORTGAGE_MONEY = 300

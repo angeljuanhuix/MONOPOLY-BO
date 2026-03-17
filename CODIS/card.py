@@ -8,7 +8,10 @@ if TYPE_CHECKING:
     from deck import Deck
 
 class Card:
-
+    """
+    Classe base per a les cartes del joc. 
+    Cada subclasse tindrà el seu propi execute()
+    """
     def __init__(
         self,
         id: int,
@@ -20,31 +23,39 @@ class Card:
         self._title = title
         self._description = description
         self._action = action
-        self._deck = None
+        self._deck = None # S'assignarà quan es robi de la baralla
     
     def id(self) -> int:
+        """Retorna l'identificador de la targeta"""
         return self._id
     
     def title(self) -> str:
+        """Retorna el títol de la targeta"""
         return self._title
     
     def description(self) -> str:
+        """Retorna la descripció de la targeta"""
         return self._description
     
     def action(self) -> str:
+        """Retorna l'acció de la targeta"""
         return self._action
     
     def set_deck(self, deck: Deck) -> None:
+        """Assinga la baralla d'on prové la carta"""
         self._deck = deck
 
     def deck(self) -> Deck:
+        """Retorna la baralla de la carta"""
         assert self._deck is not None #Sabem que sempre que s'utilitza això mai és None
         return self._deck
     
     def execute(self, player: Player) -> None:
+        """Executa l'acció de cada targeta. Cada subclasse té un execute()"""
         raise NotImplementedError
 
 class MoveToPosition(Card):
+    """Mou el jugador a una casella concreta. (Cobra 50$ si passa pel GO)"""
     def __init__(self, id: int, title: str, description: str, action: str, position: int):
         super().__init__(id, title, description, action)
         self._position = position
@@ -53,7 +64,7 @@ class MoveToPosition(Card):
         old_position = player.position()
         player.set_position(self._position)
 
-        if self._position < old_position: #Significa que ha passat pel GO, ja que a partir del GO, comencen a comptar des del 0 les caselles
+        if self._position < old_position: 
             player.receive(GO_SALARY)
 
         tile = player.board().tiles()[self._position]
@@ -62,11 +73,13 @@ class MoveToPosition(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Posició actual: {self._position} (Cobra 200$ si passa pel GO)")
 
 class MoveToNearestStation(Card):
+    """Mou el jugador a la propera estació. (Si té propietari, paga el doble de lloguer)"""
     def __init__(self, id: int, title: str, description: str, action: str, rentMultiplier: int):
         super().__init__(id, title, description, action)
         self._rentMultiplier = rentMultiplier
 
     def _nearest_station_position(self, player: Player) -> int:
+        """Retorna la posició de l'estació més propera"""
 
         #Posicions de les estacions: 5, 15, 25, 35
         
@@ -87,7 +100,7 @@ class MoveToNearestStation(Card):
         old_position = player.position()
         player.set_position(new_position)
 
-        if new_position < old_position: #Significa que ha passat pel GO, ja que a partir del GO, comencen a comptar des del 0 les caselles
+        if new_position < old_position: 
             player.receive(GO_SALARY)
         
         tile = player.board().tiles()[new_position]
@@ -96,6 +109,10 @@ class MoveToNearestStation(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Posició actual: {new_position} (Cobra 200$ si passa pel GO)")
 
 class MoveToNearestUtility(Card):
+    """
+    Mou el jugador a la propera Utility. (Si té propietari, x10 la suma 
+    dels daus, independentment de quantes utilites tingui el propietari)
+    """
     def __init__(self, id: int, title: str, description: str, action: str, rentMultiplier: int):
         super().__init__(id, title, description, action)
         self._rentMultiplier = rentMultiplier

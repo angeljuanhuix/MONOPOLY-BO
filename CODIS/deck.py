@@ -11,6 +11,9 @@ class Deck:
             data = json.load(file)
         self._cards = [build_card(card_data) for card_data in data]
 
+    def cards(self) -> list[Card]:
+        return self._cards
+
     def shuffle(self) -> None:
         random.shuffle(self._cards)
 

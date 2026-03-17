@@ -4,14 +4,28 @@ from player import Player
 from tile import Street, Property, Station, Utility, tax, special
 from strategies import Simple_Strategy
 from typing import cast
+import os
+
+@pytest.fixture
+def real_board2() -> Board:
+    """Retorna un board real creat per fer testos"""
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    return Board(
+        tiles_json_path= os.path.join(base_path, "../JSON/tiles.json"),
+        chance_json_path= os.path.join(base_path, "../JSON/chance.json"),
+        community_chest_json_path= os.path.join(base_path, "../JSON/community-chest.json"),
+        players_json_path=os.path.join(base_path, "../JSON/players.json"),
+        num_players=3
+    )
 
 @pytest.fixture
 def test_board() -> Board:
-    """Fixture que retorna un Board simulat."""
+    """Retorna un taulell fals"""
     return cast(Board, None)
 
 @pytest.fixture
 def real_board():
+    """Retorna una simulació d'un taulell real"""
     class imaginary_dice:
         def current_dice(self):
                 return (1, 1)
@@ -19,95 +33,99 @@ def real_board():
 
 @pytest.fixture
 def owner(test_board: Board) -> Player:
-    """Fixture del propietari. Fixa't que rep 'test_board' com argument."""
+    """Retorna un player que farà de propietari"""
     return Player(test_board, "Owner", "Barret", "Groc", 0, Simple_Strategy())
 
 @pytest.fixture
 def visitor(test_board: Board) -> Player:
-    """Fixture del propietari. Fixa't que rep 'test_board' com argument."""
+    """Retorna un player que farà de visitor"""
     return Player(test_board, "Visitor", "Barret", "Groc", 0, Simple_Strategy())
 
 @pytest.fixture
 def test_street(test_board: Board) -> Street:
-    """Fixture del carrer. També rep 'test_board' com argument."""
-    # Preu: 350, Lloguer base: 35
+    """Retorna un carrer fals"""
+    # Price: 350, rent: 35
     return Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 
                   35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175)
 
-# --- TESTS ---
+# TEST DE DISPONIBILITAT I HIPOTEQUES
 
-def test_street_buy_logic(test_street: Street, owner: Player) -> None:
-    """Comprova que el mètode buy() executa els 3 passos."""
-    diners_inicials = owner.money()
-    preu_carrer = test_street.price
-    
-    # ACCIÓ
-    test_street.buy(owner)
-    
-    # COMPROVACIONS
-    assert owner.money() == diners_inicials - preu_carrer
-    # He posat owner() amb parèntesis si és un getter, o sense si és atribut
-    assert test_street.owner == owner 
-    assert test_street in owner.owned_properties()
-
-def test_street_on_land_rent_payment(test_board: Board, test_street: Street, owner: Player) -> None:
-    """Comprova el pagament del lloguer quan un visitant hi cau."""
-    # 1. PREPARACIÓ
-    test_street.buy(owner)
-    
-    # Creem el visitant. Aquí test_board ja és l'objecte, no la funció.
-    visitor = Player(test_board, "visitor", "Cotxe", "Roig", 1, Simple_Strategy())
-    
-    diners_amo_abans = owner.money()
-    diners_visitant_abans = visitor.money()
-    lloguer_esperat = test_street.rent # El primer valor de la teva llista de lloguers
-    
-    # 2. ACCIÓ
-    test_street.land_on(visitor) # Assegura't que el mètode es diu land_on o on_land
-    
-    # 3. COMPROVACIÓ
-    assert visitor.money() == diners_visitant_abans - lloguer_esperat
-    assert owner.money() == diners_amo_abans + lloguer_esperat
-
-# --- 1. TEST DE PROPIETATS BÀSIQUES I HIPOTEQUES ---
-
-def test_property_mortgage_flow(test_board: Board, owner: Player):
-    """Cobreix can_mortgage, do_mortgage, can_unmortgage, do_unmortgage i availability."""
+def test_property_mortgage_flow(test_board: Board, owner: Player) -> None:
+    """
+    Comprova la disponibilitat de la casella i totes
+    les funcions relacionades amb hipotèques
+    """
     prop = Property(test_board, 1, "Generic", "property", 200, 20, 100, "Desc")
     
-    # Comprovar disponibilitat inicial
+    # Comprova disponibilitat inicial
     assert prop.availability() is True
     
     prop.buy(owner)
     assert prop.availability() is False
     
-    # Hipotecar
+    # Hipoteca
     assert prop.can_mortgage() is True
     prop.do_mortgage()
     assert prop.is_mortgaged is True
     
-    # Intentar hipotecar ja hipotecat
+    # Comprovació que no es pot hipotecar si ja ho
     assert prop.can_mortgage() is False
     
-    # Deshipotecar (Paga mortgage + 10%)
+    # Comprova tot el funcionament de deshipotecar
     assert prop.can_unmortgage() is True
     prop.do_unmortgage()
     assert prop.is_mortgaged is False
 
-# --- 2. TEST DE STREET (Monopoli i Edificació) ---
+# TEST STREET
 
-def test_street_building_restrictions(test_board: Board, owner: Player):
-    """Cobreix monopoli i construcció de cases/hotels."""
-    # Creem el set complet de color brown
+def test_street_buy_logic(test_street: Street, owner: Player) -> None:
+    """Comprova que el mètode buy() executa els 3 passos correctament"""
+    
+    diners_inicials = owner.money()
+    preu_carrer = test_street.price
+    
+    
+    test_street.buy(owner)
+    
+    assert owner.money() == diners_inicials - preu_carrer
+    assert test_street.owner == owner 
+    assert test_street in owner.owned_properties()
+
+def test_street_on_land_rent_payment(test_street: Street, owner: Player, visitor: Player) -> None:
+    """Comprova el pagament del lloguer quan un visitant hi cau."""
+    
+    # Es fa que el propietari compri el carrer perquè sigui el propietari
+    test_street.buy(owner)
+    
+    old_money_owner = owner.money()
+    old_money_visitor = visitor.money()
+    rent = test_street.rent 
+    
+    # El visitor cau a la casella
+    test_street.land_on(visitor) 
+    
+    # Es comprova que s'ha fet el pagament correctament
+    assert visitor.money() == old_money_visitor - rent
+    assert owner.money() == old_money_owner + rent
+
+def test_street_building_restrictions_and_rent_with_houses(test_board: Board, owner: Player) -> None:
+    """
+    Comprova la declaració de monopoli i 
+    la construcció uniforme d'hotels i cases.
+    """
+    # Es crea el monopoli marró. (rentWithHotel = 250)
     s1 = Street(test_board, 1, "Brown 1", "property", "brown", 60, 2, 4, 10, 30, 90, 160, 250, 50, 50, 30)
     s2 = Street(test_board, 3, "Brown 2", "property", "brown", 60, 4, 8, 20, 60, 180, 320, 450, 50, 50, 30)
     
+    # Owner té el monopoli
     s1.buy(owner)
-    s2.buy(owner) # Ara té monopoli
+    s2.buy(owner) 
     
-    # Comprovem que podem edificar les 4 cases una a una
+    # Sense cases -> lloguer amb monopoli
+    assert s1.rent_calculation() == 4
+
+    # Comprovació de construcció uniforme
     for _ in range(4):
-        # Primer construïm a S1, després a S2 per mantenir l'equilibri
         if s1.can_build_house():
             s1.build_house()
         if s2.can_build_house():
@@ -116,51 +134,53 @@ def test_street_building_restrictions(test_board: Board, owner: Player):
     assert s1.houses == 4
     assert s2.houses == 4
     
+    # 4 cases → lloguer amb 4 cases
+    assert s1.rent_calculation() == 160
+
     assert s1.can_build_house() is False # Límit de cases assolit
     
-    # Ara comprovem l'hotel
+    # Comprovació de construcció d'hotel
     assert s1.can_build_hotel() is True
     s1.build_hotel()
     
     assert s1.hotels == 1
     assert s1.houses == 0
-    assert s1.rent_calculation() == 250 # rent_with_hotel (rent[6])
+    assert s1.rent_calculation() == 250 #Comprovació rent_calculation funciona correctament
 
-def test_street_selling_buildings(test_board: Board, owner: Player):
-    """Cobreix la venda legal de cases i hotels de forma anivellada i controla els diners."""
-    # 1. PREPARACIÓ: Necessitem el set complet per poder edificar
-    # Preu casa/hotel = 50. Retorn per venda = 25.
+def test_street_selling_buildings(test_board: Board, owner: Player) -> None:
+    """
+    Comprova la venda uniforme d'hotels i cases i també
+    que s'afegeixin correctament els diners al capital del jugador"""
+
+    # Owner té el monopoli
     s1 = Street(test_board, 1, "Brown 1", "property", "brown", 60, 2, 4, 10, 30, 90, 160, 250, 50, 50, 30)
     s2 = Street(test_board, 3, "Brown 2", "property", "brown", 60, 4, 8, 20, 60, 180, 320, 450, 50, 50, 30)
     s1.buy(owner)
     s2.buy(owner)
     
-    # Forcem monopoli per evitar problemes de mock
-    
-    # 2. CONSTRUCCIÓ: Pugem a hotel (anivellat)
+    # Es construeixen cada hotel en el seu carrer
     for _ in range(4):
         s1.build_house()
         s2.build_house()
     s1.build_hotel()
     s2.build_hotel()
     
-    # 3. VENDA D'HOTEL: Comprovem que es pot vendre
+    # Es comprova que es vengui l'hotel
     assert s1.can_sell_hotel() is True
     diners_abans_vendre_hotel = owner.money()
     s1.sell_hotel()
     
-    # Al vendre l'hotel, recuperes la meitat del cost (50 // 2 = 25)
+    # Owner li donen la meitat del preu d'un hotel (50/2 = 25)
     assert s1.hotels == 0
     assert s1.houses == 4
     assert owner.money() == diners_abans_vendre_hotel + 25
     
-    # 4. VENDA DE CASES (Anivellada)
-    # Venem l'hotel de s2 per estar a 4-4 i recuperar 25€ més
+    # Es comprova que es vengui segon hotel
     diners_abans_vendre_hotel_s2 = owner.money()
     s2.sell_hotel()
-    assert owner.money() == diners_abans_vendre_hotel_s2 + 25
+    assert owner.money() == diners_abans_vendre_hotel_s2 + 25 #(50/2 = 25)
     
-    # Ara que estan 4-4, venem una casa de s1
+
     assert s1.can_sell_house() is True
     diners_abans_vendre_casa = owner.money()
     s1.sell_house()
@@ -168,21 +188,25 @@ def test_street_selling_buildings(test_board: Board, owner: Player):
     assert s1.houses == 3
     assert owner.money() == diners_abans_vendre_casa + 25 # Recupera 25€ de la casa
     
-    # Si intentem vendre una altra casa de s1 (quedaria 3-4), 
-    # mirem si l'anivellament ens obliga a vendre primer la de s2 (per baixar a 3-3)
-    if not s1.can_sell_house():
-        assert s2.can_sell_house() is True
-        diners_abans_vendre_casa_s2 = owner.money()
-        s2.sell_house()
-        assert s2.houses == 3
-        assert owner.money() == diners_abans_vendre_casa_s2 + 25
+    # Es comprova que la venda ha de ser uniforme, no poden haver-hi més dos cases de diferència entre carrers
+    assert s1.can_sell_house() is False
+    assert s2.can_sell_house() is True
+    diners_abans_vendre_casa_s2 = owner.money()
+    s2.sell_house()
+    assert s2.houses == 3
+    assert owner.money() == diners_abans_vendre_casa_s2 + 25
 
-# --- 3. TEST DE CLASSES ESPECÍFIQUES (Station i Utility) ---
+# TEST STATION/UTILITY (ja que tenen un rent_calculation especial)
 
-def test_station_calculation(test_board: Board, owner: Player):
-    """Cobreix lloguer escalat d'estacions."""
-    st1 = Station(test_board, 5, "S1", "station", 200, 25, 100, 50, 100, 200)
-    st2 = Station(test_board, 15, "S2", "station", 200, 25, 100, 50, 100, 200)
+def test_station_calculation(test_board: Board, owner: Player) -> None:
+    """
+    Comprova que el preu del lloguer és correcte
+    en funció de les estacions que té el propietari
+    """
+    st1 = Station(test_board, 5, "Kings Cross Station", "station", 200, 25, 100, 50, 100, 200)
+    st2 = Station(test_board, 15, "Marylebone Station", "station", 200, 25, 100, 50, 100, 200)
+    st3 = Station(test_board, 25, "Fenchurch St Station", "station", 200, 25, 100, 50, 100, 200)
+    st4 = Station(test_board, 15, "Liverpool Street Station", "station", 200, 25, 100, 50, 100, 200)
     
     st1.buy(owner)
     assert st1.rent_calculation() == 25
@@ -190,47 +214,61 @@ def test_station_calculation(test_board: Board, owner: Player):
     st2.buy(owner)
     assert st1.rent_calculation() == 50
 
-def test_utility_dice_and_multiplier(real_board: Board, owner: Player, visitor: Player):
-    """Cobreix Utility amb daus forçats i multiplicador de carta."""
-    ut = Utility(real_board, 12, "Electric", "utility", 150, 75, "Desc", 4, 10)
-    ut.buy(owner)
+    st3.buy(owner)
+    assert st1.rent_calculation() == 100
+
+    st4.buy(owner)
+    assert st1.rent_calculation() == 200
+
+def test_utility_dice_and_multiplier(real_board: Board, owner: Player, visitor: Player) -> None:
+    """
+    Comprova que el càlcul del lloguer és correcte (depenent de la 
+    quantitat d'utilities i si cau a la casella per culpa d'una carta o no)
+    """
     
-    # Forçar daus a (5, 5) -> Suma 10
+    ut1 = Utility(real_board, 12, "Electric Company", "utility", 150, 75, "Desc", 4, 10)
+    ut2 = Utility(real_board, 28, "Water Works", "utility", 150, 75, "Desc", 4, 10)
+    
+    ut1.buy(owner)
+    
+    # Es simula que es treu dos cincs en els daus
     real_board.current_dice = lambda: (5, 5)
     
-    # 1. Càlcul normal (10 * 4 = 40)
-    assert ut.rent_calculation() == 40
+    # Càlcul tenint una utility
+    assert ut1.rent_calculation() == 40
     
-    # 2. Càlcul via land_on amb multiplicador de carta (Ex: paga x10 la tirada)
-    diners_abans = visitor.money()
-    ut.land_on(visitor, rent_multiplier=10) # 10 suma * 10 carta = 100
-    assert visitor.money() == diners_abans - 100
+    # Càlcul si cau per culpa d'una carta (el multiplicador és 10)
+    old_money = visitor.money()
+    ut1.land_on(visitor, rent_multiplier=10) 
+    assert visitor.money() == old_money - 100
 
-# --- 4. TEST DE CASSELLES D'ACCIÓ (Tax i Special) ---
+    # Càlcul tenint dues utilities
+    ut2.buy(owner)
+    assert ut1.rent_calculation() == 100
 
-def test_tax_and_special_tiles(test_board: Board, owner: Player):
-    """Comprova que les taxes resten diners i les caselles especials funcionen."""
-    # 1. TAXES: Verifiquem que resten diners
+# TEST TAX/SPECIAL
+
+def test_tax_and_special_tiles(test_board: Board, owner: Player) -> None:
+    """
+    Comprova que les taxes cobren i les special 
+    fan la seva funció correctament"""
+    
+    # Comprovació que tax resta diners
     t = tax(test_board, 4, "Income Tax", "tax", "Desc", 200)
     diners_abans = owner.money()
     t.land_on(owner)
     assert owner.money() == diners_abans - 200
     
-    # 2. GO TO JAIL: Verifiquem que el jugador acaba a la presó
+    # Es comprova que el jugador vagi a la presó si cau a Go To Jail
     s = special(test_board, 30, "Go To Jail", "special", "Desc")
-    
-    # Simplement mirem com està el jugador abans i després
-    # (Ajusta 'is_in_jail' al nom real que tinguis al teu codi)
     s.land_on(owner)
     
-    # Aquí l'assert depèn de com hagis programat Player:
-    # Opció A (si tens el mètode):
     assert owner.is_in_prison() is True
 
-# --- 5. TEST DE LAND_ON (Property) ---
+# TEST PROPERTY
 
-def test_property_land_on_cases(test_board: Board, owner: Player, visitor: Player):
-    """Cobreix casos de land_on: hipotecat, mateix propietari, etc."""
+def test_property_land_on(test_board: Board, owner: Player, visitor: Player) -> None:
+    """Comprova si funciona correctament el land_on del Property"""
     prop = Property(test_board, 1, "Test", "property", 200, 20, 100, "Desc")
     prop.buy(owner)
     
@@ -244,3 +282,40 @@ def test_property_land_on_cases(test_board: Board, owner: Player, visitor: Playe
     diners_visitor = visitor.money()
     prop.land_on(visitor)
     assert visitor.money() == diners_visitor
+
+# TEST CHANCE and COMMUNITY CHEST
+
+def test_chance_land_on(real_board2: Board) -> None:
+    """
+    Comprova la gestió de les cartes CHANCE (que tornin al seu lloc) 
+    i si no ha tornat, és perquè era un "get out of jail" card
+    """
+
+    import random
+    random.seed(42)  # fixem la seed per saber quina carta sortirà
+    player = real_board2.players()[0]
+    chance_tile = real_board2.tiles()[7]
+    
+    cards_before = real_board2.chance_deck().cards()[0]  # primera carta del piló
+    
+    chance_tile.land_on(player)
+    
+    # Comprova que la carta s'ha mogut al final del piló
+    assert real_board2.chance_deck().cards()[-1] == cards_before or player.get_out_of_jail_free_cards() > 0
+
+def test_community_chest_land_on(real_board2: Board) -> None:
+    """
+    Comprova la gestió de les cartes COMMUNITY_CHEST (que tornin al seu lloc) 
+    i si no ha tornat, és perquè era un "get out of jail" card
+    """
+    import random
+    random.seed(42)
+    player = real_board2.players()[0]
+    community_tile = real_board2.tiles()[2]
+    
+    cards_before = real_board2.community_chest_deck().cards()[0]
+    
+    community_tile.land_on(player)
+    
+    # Comprova que la carta s'ha mogut al final del piló
+    assert real_board2.community_chest_deck().cards()[-1] == cards_before or player.get_out_of_jail_free_cards() > 0

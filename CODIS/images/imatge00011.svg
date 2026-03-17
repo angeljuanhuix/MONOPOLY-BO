@@ -74,6 +74,7 @@
 <rect x="90.9090909090909" y="0" width="90.9090909090909" height="90.9090909090909" fill="#DC143C" stroke="black" stroke-width="1" />
 <path d="M90.9090909090909,22.727272727272727 L181.8181818181818,22.727272727272727" stroke="black" stroke-width="1" />
 <text x="136.36363636363637" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Strand £220</text>
+<text x="173.8181818181818" y="84.9090909090909" font-size="12" text-anchor="end" dominant-baseline="alphabetic" fill="white" font-family="Helvetica">🚘</text>
 <rect x="181.8181818181818" y="0" width="90.9090909090909" height="90.9090909090909" fill="#FFA500" stroke="black" stroke-width="1" />
 <text x="227.27272727272725" y="28" font-size="22" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">❓</text>
 <text x="227.27272727272725" y="45.45454545454545" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">Chance</text>
@@ -139,27 +140,29 @@
 <text x="500.0" y="508.0" font-size="60" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">🤑</text>
 <rect x="140.9090909090909" y="140.9090909090909" width="334.0909090909091" height="334.0909090909091" fill="LightCoral" stroke="black" stroke-width="1" />
 <text x="148.9090909090909" y="162.9090909090909" font-size="20" font-weight="bold" font-family="Helvetica">🚘 Jordi</text>
-<text x="148.9090909090909" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £205 · 💳 0 · ⛓️ 0</text>
+<text x="148.9090909090909" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £235 · 💳 0 · ⛓️ 0</text>
 <text x="148.9090909090909" y="192.9090909090909" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
 <text x="148.9090909090909" y="209.9090909090909" font-size="14" font-family="Helvetica">🚆 </text>
 <text x="168.9090909090909" y="209.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Kings Cross Station</text>
 <circle cx="154.9090909090909" cy="221.9090909090909" r="5" fill="#87CEEB" stroke="black" stroke-width="0.5" />
 <text x="168.9090909090909" y="226.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Pentonville Road</text>
+<circle cx="154.9090909090909" cy="238.9090909090909" r="5" fill="#DC143C" stroke="black" stroke-width="0.5" />
+<text x="168.9090909090909" y="243.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Strand</text>
 <rect x="525.0" y="140.9090909090909" width="334.0909090909091" height="334.0909090909091" fill="LightBlue" stroke="black" stroke-width="1" />
 <text x="533.0" y="162.9090909090909" font-size="20" font-weight="bold" font-family="Helvetica">🐧 Mireia</text>
-<text x="533.0" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £315 · 💳 0 · ⛓️ 0</text>
+<text x="533.0" y="176.9090909090909" font-size="14" font-family="Helvetica">💵 £565 · 💳 0 · ⛓️ 0</text>
 <text x="533.0" y="192.9090909090909" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
 <circle cx="539.0" cy="204.9090909090909" r="5" fill="#FF69B4" stroke="black" stroke-width="0.5" />
 <text x="553.0" y="209.9090909090909" font-size="14" font-style="normal" font-family="Helvetica">Northumberland Avenue</text>
 <rect x="525.0" y="525.0" width="334.0909090909091" height="334.0909090909091" fill="Silver" stroke="black" stroke-width="1" />
 <text x="533.0" y="547.0" font-size="20" font-weight="bold" font-family="Helvetica">🛩 Arnau</text>
-<text x="533.0" y="561.0" font-size="14" font-family="Helvetica">💵 £320 · 💳 0 · ⛓️ 0</text>
+<text x="533.0" y="561.0" font-size="14" font-family="Helvetica">💵 £570 · 💳 0 · ⛓️ 0</text>
 <text x="533.0" y="577.0" font-size="14" font-weight="bold" font-family="Helvetica">Properties:</text>
 <circle cx="539.0" cy="589.0" r="5" fill="#FFA500" stroke="black" stroke-width="0.5" />
 <text x="553.0" y="594.0" font-size="14" font-style="normal" font-family="Helvetica">Bow Street</text>
 <rect x="140.9090909090909" y="525.0" width="334.0909090909091" height="334.0909090909091" fill="Gold" stroke="black" stroke-width="1" />
 <text x="148.9090909090909" y="547.0" font-size="20" font-weight="bold" font-family="Helvetica">🐈 Marta</text>
-<text x="148.9090909090909" y="561.0" font-size="14" font-family="Helvetica">💵 £300 · 💳 0 · ⛓️ 0</text>
+<text x="148.9090909090909" y="561.0" font-size="14" font-family="Helvetica">💵 £550 · 💳 0 · ⛓️ 0</text>
 <text x="749.0909090909091" y="429.0" font-size="72" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">⚄</text>
 <text x="813.0909090909091" y="429.0" font-size="72" text-anchor="middle" dominant-baseline="middle" font-family="Helvetica">⚂</text>
 </g>
