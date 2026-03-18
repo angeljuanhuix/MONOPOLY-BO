@@ -8,7 +8,9 @@ En aquest README podrà trobar les explicacions de tots aquells canvis important
 ## Creació del current_dice (1)
 S'ha creat un mètode nou a part del ``dice()`` que es situa al ``board.py`` El motiu de la seva creació és per guardar el nombre que surt en el dau, perquè s'ha vist que el ``draw.py()`` per veure el nombre que s'ha tret torna a cridar al ``dice()`` i si en aquest mètode és on generem el nombre, doncs es genera per primera vegada quan decidim quants passos fa el jugador i una altra vegada per mostrar en pantalla el nombre dels daus cosa que provoca que no concordi el nombre de caselles que es mou la fitxa i els nombres que surten en els daus.
 
-## DIFERÈNCIES AMB JOC ORIGINAL
+## CONSTRUCCIÓ UNIFORME
+
+## DIFERÈNCIES AMB JOC ORIGINAL (fixar-me en el canvi de constant)
 
 ## REQUERIMENTS (QUÈ T'HAS D'INSTAL·LAR)
 

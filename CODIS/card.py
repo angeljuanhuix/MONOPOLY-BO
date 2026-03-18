@@ -56,6 +56,7 @@ class Card:
 
 class MoveToPosition(Card):
     """Mou el jugador a una casella concreta. (Cobra 50$ si passa pel GO)"""
+    
     def __init__(self, id: int, title: str, description: str, action: str, position: int):
         super().__init__(id, title, description, action)
         self._position = position
@@ -74,12 +75,16 @@ class MoveToPosition(Card):
 
 class MoveToNearestStation(Card):
     """Mou el jugador a la propera estació. (Si té propietari, paga el doble de lloguer)"""
+    
     def __init__(self, id: int, title: str, description: str, action: str, rentMultiplier: int):
         super().__init__(id, title, description, action)
         self._rentMultiplier = rentMultiplier
 
     def _nearest_station_position(self, player: Player) -> int:
-        """Retorna la posició de l'estació més propera"""
+        """
+        Retorna la posició de l'estació més propera
+        respecte la posició del jugador
+        """
 
         #Posicions de les estacions: 5, 15, 25, 35
         
@@ -111,14 +116,18 @@ class MoveToNearestStation(Card):
 class MoveToNearestUtility(Card):
     """
     Mou el jugador a la propera Utility. (Si té propietari, x10 la suma 
-    dels daus, independentment de quantes utilites tingui el propietari)
+    dels daus, independentment de quantes utilities tingui el propietari)
     """
+    
     def __init__(self, id: int, title: str, description: str, action: str, rentMultiplier: int):
         super().__init__(id, title, description, action)
         self._rentMultiplier = rentMultiplier
 
     def _nearest_utility_position(self, player: Player) -> int:
-
+        """
+        Retorna la posició de l'utility més propera
+        respecte la posició del jugador
+        """
         #Posicions de les utilities: 12, 28
         
         if 12 < player.position() < 28:
@@ -141,6 +150,11 @@ class MoveToNearestUtility(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Posició actual: {new_position} (Cobra 200$ si passa pel GO)")
 
 class MoveBackSpaces(Card):
+    """
+    Mou el jugadors tantes caselles 
+    endarrere com indiqui la carta
+    """
+    
     def __init__(self, id: int, title: str, description: str, action: str, spaces: int):
         super().__init__(id, title, description, action)
         self._spaces = spaces
@@ -155,6 +169,8 @@ class MoveBackSpaces(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Posició actual: {new_position}")
     
 class GoToJail(Card):
+    """Envia el jugador a la presó sense cobrar el GO_SALARY"""
+    
     def __init__(self, id: int, title: str, description: str, action: str, position: int):
         super().__init__(id, title, description, action)
         self._position = position
@@ -164,6 +180,11 @@ class GoToJail(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Va directament a la presó! (NO cobra 200$ si passa pel GO)")
 
 class GetOutOfJailCard(Card):
+    """
+    Carta que guarda el jugador i es pot utilitzar per sortir
+    de la presó sense complir els requirements per defecte (dobles, o esperar 3 torns)
+    """
+    
     def __init__(self, id: int, title: str, description: str, action: str, keepCard: bool):
         super().__init__(id, title, description, action)
         self._keepCard = keepCard
@@ -173,6 +194,8 @@ class GetOutOfJailCard(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Té {player.get_out_of_jail_free_cards()} targeta/es de sortida de presó!")
 
 class CollectMoney(Card):
+    """El jugador rep la quantitat de diners que indica la carta"""
+    
     def __init__(self, id: int, title: str, description: str, action: str, amount: int):
         super().__init__(id, title, description, action)
         self._amount = amount
@@ -182,6 +205,8 @@ class CollectMoney(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Rep {self._amount}$")
 
 class PayMoney(Card):
+    """El jugador paga la quantitat de diners que indica la carta"""
+    
     def __init__(self, id: int, title: str, description: str, action: str, amount: int):
         super().__init__(id, title, description, action)
         self._amount = amount
@@ -191,6 +216,8 @@ class PayMoney(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Paga {self._amount}$")
 
 class PayPerProperty(Card):
+    """El jugador paga certa quantitat de diners per cada casa i hotel que té construïts"""
+    
     def __init__(self, id: int, title: str, description: str, action: str, amountPerHouse: int, amountPerHotel: int):
         super().__init__(id, title, description, action)
         self._amountPerHouse = amountPerHouse
@@ -210,6 +237,8 @@ class PayPerProperty(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Paga {total_payment}$ ({self._amountPerHouse} per casa i {self._amountPerHotel} per hotel)")
 
 class PayEachPlayer(Card):
+    """El jugador paga una certa quantitat de diners a cada jugador actiu"""
+    
     def __init__(self, id: int, title: str, description: str, action: str, amountPerPlayer: int):
         super().__init__(id, title, description, action)
         self._amountPerPlayer = amountPerPlayer
@@ -223,6 +252,8 @@ class PayEachPlayer(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Paga {self._amountPerPlayer}$ a cada jugador")
 
 class CollectFromPlayers(Card):
+    """El jugador rep una certa quantitat de diners dels altres jugadors actius"""
+    
     def __init__(self, id: int, title: str, description: str, action: str, amountPerPlayer: int):
         super().__init__(id, title, description, action)
         self._amountPerPlayer = amountPerPlayer
@@ -236,6 +267,7 @@ class CollectFromPlayers(Card):
         print(f"{player.name()} li ha tocat <{self._title}>. Rep {self._amountPerPlayer}$ de cada jugador")
 
 def build_card(data: dict[str, Any]) -> Card: 
+    """Construeix la classe adequada per a cada tipus de carta a traves dels fitxers JSON"""
     action = data["action"]
     
     if action == "move_to_position":

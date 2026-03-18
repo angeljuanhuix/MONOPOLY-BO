@@ -3,6 +3,10 @@ import random
 
 
 def main() -> None:
+    """
+    Inicialitza el taulell i la partida 
+    i s'escullen la quantitat de jugadors"""
+
     num_players = int(input("Quants jugadors vols? (2-4) ->"))
     board = Board(
         tiles_json_path="JSON/tiles.json",

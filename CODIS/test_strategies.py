@@ -11,15 +11,15 @@ def test_player_simple_strategy_desire_buying() -> None:
     funció dels diners que té el jugador.
     """
 
-    mock_board = cast(Board, None)
+    test_board = cast(Board, None)
 
-    player = Player(board=mock_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Simple_Strategy())
+    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Simple_Strategy())
     
     # Fem que el jugador tingui 1000$ inicialment(li restem el que té i li sumem 1000$)
     player.pay(player.money())
     player.receive(1000)
     
-    carrer = Street(mock_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
+    carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
     )
     
     #Es comprova que vulgui comprar un carrer de 350$
@@ -34,15 +34,15 @@ def test_player_simple_strategy_desire_buying() -> None:
 def test_player_simple_strategy_other_desires() -> None:
     """Comprova que els altres desires donen False independentment dels diners que té."""
 
-    mock_board = cast(Board, None)
+    test_board = cast(Board, None)
 
-    player = Player(board=mock_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Simple_Strategy())
+    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Simple_Strategy())
     
     # Comença amb 1000$
     player.pay(player.money())
     player.receive(1000)
     
-    carrer = Street(mock_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
+    carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
     )
     
     #Independentments dels diners, ha de donar això, perquè així és l'estratègia
@@ -58,12 +58,12 @@ def test_player_smart_strategy_rich() -> None:
     Comprova que la Smart_Strategy decideix correctament quan 
     construir, vendre o hipotecar quan té diners
     """
-    mock_board = cast(Board, None)
+    test_board = cast(Board, None)
     
-    player = Player(board=mock_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
+    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
     
     # Cost casa/hotel = 200
-    carrer = Street(mock_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
+    carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
     )
     
     #S'assigna que tingui 1000$
@@ -83,12 +83,12 @@ def test_player_smart_strategy_regular() -> None:
     Comprova que la Smart_Strategy decideix correctament quan 
     construir, vendre o hipotecar quan té un capital regular
     """
-    mock_board = cast(Board, None)
+    test_board = cast(Board, None)
     
-    player = Player(board=mock_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
+    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
     
     # Cost casa/hotel = 200
-    carrer = Street(mock_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
+    carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
     )
     
     # S'assigna que tingui 200$
@@ -108,12 +108,12 @@ def test_player_smart_strategy_poor() -> None:
     Comprova que la Smart_Strategy decideix correctament quan 
     construir, vendre o hipotecar quan és pobre
     """
-    mock_board = cast(Board, None)
+    test_board = cast(Board, None)
     
-    player = Player(board=mock_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
+    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
     
     # Cost casa/hotel = 200
-    carrer = Street(mock_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
+    carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
     )
     
     # S'assigna que tingui 200$

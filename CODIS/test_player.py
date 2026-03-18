@@ -7,12 +7,12 @@ from typing import cast
 from tile import Property
 from card import Card
 
-@pytest.fixture #
+@pytest.fixture 
 def test_player() -> Player:
     
     
-    mock_board = cast(Board, None) #Fem que el board pugui ser None perquè no s'utilitzarà per testejar el player.py
-    return Player(board = mock_board , name="Test", piece="Hat", color="Blue", index=0, strategy = Simple_Strategy())
+    test_board = cast(Board, None) #Fem que el board pugui ser None perquè no s'utilitzarà per testejar el player.py
+    return Player(board = test_board , name="Test", piece="Hat", color="Blue", index=0, strategy = Simple_Strategy())
 
 
 #ATRIBUTS BÀSICS

@@ -27,8 +27,7 @@ class Tile:
     
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
         """Handle what happens when a player lands on this tile."""
-        pass #Utilitzem aquest land_on com a pare de les altres, però com les propietats
-            # i les tax, special, community and chance no tenen res en comú, no hi podem posar res aquí
+        pass #Per defecte no fa res (GO, Free Parking, ...)
 
     def type(self) -> str: 
         return self._tile_type
@@ -46,6 +45,10 @@ class Tile:
         return self._board
 
 class Property(Tile):
+    """
+    Casella que es pot comprar (carrer, estació o utility)
+    Gestiona compra, lloguer, hipoteques i disponibilitat
+    """
 
     def __init__(
         self,
@@ -88,39 +91,38 @@ class Property(Tile):
     
     def availability(self) -> bool:
         """
-        Retorna si aquella propietat es pot comprar
-        o pertany a algú altre
+        Retorna True si aquella propietat no és de ningú
         """
         return self._owner == None
     
     def release_property(self) -> None:
-        """Allibera la propietat (torna al banc)"""
+        """Allibera la propietat (torna al banc, sense propietari ni hipoteca)"""
+        
         self._owner = None
         self._is_mortgaged = False
     
     def buy(self, player: Player) -> None:
-        """El jugador compra la propietat"""
+        """El jugador compra la propietat i és el propietari"""
+        
         player.pay(self._price)
         player.add_property(self)
         self._owner = player
         print(f"{player.name()} ha comprat {self._name} per {self._price}$")
 
     def rent_calculation(self) -> int:
-        """Mètode que retornà el preu de lloguer depenent de la propietat
-        gràcies a la seva herència"""
+        """Retrona el lloguer bàsic. Cada tile té el seu"""
+        
         return self._rent
     
     def can_mortgage(self) -> bool:
-        """
-        Retornà un booleà indicant True si compleix els
-        requisits per hipotecar el carrer i False pel contrari
-        """
+        """Retorna un True si la propietat no està hipotecada"""
+
         if self._is_mortgaged:
             return False
         return True
     
     def do_mortgage(self) -> None:
-        """Hipoteca un carrer"""
+        """Hipoteca una propietat (el jugador rep el valor que té la hipoteca)"""
         assert self._owner is not None
         
         self._owner.receive(self._mortgage)
@@ -128,32 +130,33 @@ class Property(Tile):
         print(f"{self._owner.name()} ha hipotecat {self._name} i rep {self._mortgage}$")
 
     def can_unmortgage(self) -> bool:
-        """
-        Retornà un booleà indicant True si compleix els
-        requisits per deshipotecar el carrer i False pel contrari
-        """
+        """Retornà True si la propietat està hipotecada i es pot deshipotecar"""
+        
         return self._is_mortgaged
     
     def do_unmortgage(self) -> None:
-        """Deshipoteca un carrer"""
+        """Deshipoteca una propietat (el jugador paga 110% del valor de la hipoteca)"""
+        
         assert self._owner is not None
+        
         ten_percent = self._mortgage // 10
         self._owner.pay(self._mortgage + ten_percent)
         self._is_mortgaged = False
         print(f"{self._owner.name()} ha deshipotecat {self._name} pagant {self._mortgage + ten_percent}$")
     
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
-        """Gestiona el que s'ha de fer quan un jugador cau en una propietat"""
-        if self._is_mortgaged: #Si la casella està hipotecada, no cal que executi res més
+        """Gestiona les accions que es poden fer quan un jugador hi cau"""
+        
+        if self._is_mortgaged: #Si està hipotecada no es fa res
             return None
         
-        if self.availability():
-            if player.wants_to_buy(self): #Seguim l'estratègia
+        if self.availability(): # Si és lliure, jugador decideix si comprar-la segons l'estratègia
+            if player.wants_to_buy(self): 
                 self.buy(player)
             else: print(f"{player.name()} no té prous diners per comprar {self._name}")
             
         else:
-            if self._owner != player and self._owner is not None: #Tot i que ja sabem que l'owner no serà None, ho posem perquè el Pylance entengui que té propietari 100%
+            if self._owner != player and self._owner is not None: #owner is not None per evitar problemes amb el Pylance
                 rent = self.rent_calculation() * rent_multiplier
                 player.pay(rent)
                 self._owner.receive(rent)
@@ -161,6 +164,7 @@ class Property(Tile):
 
         
 class Street(Property):
+    """Gestió del carrer. Es poden construir cases i hotels (Si es té el Monopoli)"""
     def __init__(
         self,
         board: Board,
@@ -201,9 +205,12 @@ class Street(Property):
     def hotels(self) -> int:
         return self._hotels
 
-    @property #he posat això perquè sinó, no em surtien les caselles del color que toca
+    @property 
     def color(self) -> str:
-        """Això fa que tile.color funcioni sense parèntesis"""
+        """
+        Retorna el color de la casella (@property perquè sigui
+        compatible amb el draw.py i no faci falta parèntesis)
+        """
         return self._color
     
     def house_cost(self) -> int:
@@ -214,25 +221,29 @@ class Street(Property):
     
     def has_monopoly(self) -> bool:
         """
-        Retorna si el jugador té totes les propietat del mateix color
+        Retorna si el jugador té totes les propietats (carrers) del mateix color
         """
         assert self._owner is not None #Perquè Pylance no es queixi, 
-        #però nosaltres sabem que si arribem a aquest punt, l'owner sempre tindrà mínim una propietat
 
-        #Creem un diccionari constant del nombre de carrers que té cada color
+        # Creem un diccionari constant del nombre de carrers que té cada color
         nombres_carrers: dict[str, int] = {"light_blue": 3, "pink": 3, "orange": 3, "red": 3, "yellow": 3, "green": 3, "brown": 2, "dark_blue": 2}
         
-        #isinstance perquè el programa miri si és street i sàpiga que ho és i així no tenir problemes amb el property.color
+        # Suma per veure si té tots els carrers d'un color
         owned_same_color = sum(1 for property in self._owner.owned_properties() if isinstance(property, Street) and property.color == self._color)
 
         return owned_same_color == nombres_carrers[self._color]
     
     def can_build_house(self) -> bool:
         """
-        Comprova si es tenen els requisits per
-        construir una casa en aquest carrer
+        Retorna True si es tenen els requisits per
+        construir una casa en aquest carrer:
+        - Tenir Monopoli
+        - No té hotel
+        - No té ja 4 cases
+        - Construcció uniforme
         """
-        if not self.has_monopoly():
+
+        if not self.has_monopoly(): 
             return False
         if self._hotels == 1:
             return False
@@ -241,14 +252,17 @@ class Street(Property):
         
         assert self._owner is not None #Perquè no surti error en el Pylance
 
+        #Construcció uniforme
+
         for street in self._owner.owned_properties():
             if isinstance(street, Street) and street.color == self._color and street != self:
                 if street._houses < self._houses:
                     return False
+        
         return True
     
     def build_house(self) -> None:
-        """Construeix una casa"""
+        """Es paga la casa i es construeix"""
 
         assert self._owner is not None #Perquè no surti error en el Pylance
 
@@ -259,8 +273,12 @@ class Street(Property):
 
     def can_build_hotel(self) -> bool:
         """
-        Comprova si es compleixen els requisits 
-        per construir un hotel en aquest carrer
+        Retorna True si es compleixen els requisits 
+        per construir un hotel en aquest carrer:
+        - Té monopoli
+        - Té exactametnt 4 cases
+        - No té un hotel
+        - Construcció uniforme
         """
         if not self.has_monopoly():
             return False
@@ -278,7 +296,7 @@ class Street(Property):
         return True
     
     def build_hotel(self) -> None:
-        """Construeix un hotel"""
+        """Es paga l'hotel i les 4 cases passen a ser un hotel"""
 
         assert self._owner is not None #Perquè no surti error en el Pylance
 
@@ -290,8 +308,12 @@ class Street(Property):
     
     def can_sell_house(self) -> bool:
         """
-        Comprova si es tenen els requisits 
-        per vendre una casa en aquest carrer
+        Retorna True si es tenen els requisits 
+        per vendre una casa en aquest carrer:
+        - Té monopoli
+        - No té hotel
+        - Té almenys una casa
+        - Construcció uniforme 
         """
         if not self.has_monopoly():
             return False
@@ -313,19 +335,22 @@ class Street(Property):
         return True
     
     def sell_house(self) -> None:
-        """Ven una casa"""
+        """El jugador ven una casa i rep la meitat del seu preu"""
 
         assert self._owner is not None #Perquè no surti error en el Pylance
 
-        self._owner.receive(self._house_cost // 2) #Li retornen la meitat del preu d'una casa
+        self._owner.receive(self._house_cost // 2) 
         self._houses -= 1
 
         print(f"{self._owner.name()} ha venut una casa a {self._name} (Li queda/en {self._houses} casa/es)")
     
     def can_sell_hotel(self) -> bool:
         """
-        Comprova si es tenen els requisits 
-        per vendre un hotel en aquest carrer
+        Retorna True si es tenen els requisits 
+        per vendre un hotel en aquest carrer:
+        - Té monopoli
+        - Té hotel
+        - Construcció uniforme 
         """
         if not self.has_monopoly():
             return False
@@ -342,11 +367,11 @@ class Street(Property):
         return True
     
     def sell_hotel(self) -> None:
-        """Ven un hotel"""
+        """El jugador ven un hotel i rep la meitat del seu preu"""
 
         assert self._owner is not None #Perquè no surti error en el Pylance
 
-        self._owner.receive(self._hotel_cost // 2) #Li retornen la meitat del preu de l'hotel
+        self._owner.receive(self._hotel_cost // 2) 
         self._houses += 4
         self._hotels -= 1
 
@@ -354,8 +379,8 @@ class Street(Property):
 
     def can_mortgage(self) -> bool:
         """
-        Retornà un booleà indicant True si compleix els
-        requisits per hipotecar el carrer i False pel contrari
+        Retornà un True si el carrer no té cases ni hotels
+        i compleix els requisits per hipotecar-la
         """
         if self._houses > 0 or self._hotels == 1:
             return False
@@ -363,7 +388,8 @@ class Street(Property):
         return super().can_mortgage()
 
     def rent_calculation(self) -> int:
-        """Calcula el lloguer d'aquell carrer"""
+        """Retorna el preu del lloguer segons l'estat del carrer"""
+        
         if self._hotels == 1:
             return self._rent_with_hotel
         elif self._houses == 4:
@@ -381,6 +407,8 @@ class Street(Property):
             
                 
 class Station(Property):
+    """Gestió de les estacions. Lloguer varia segons el nombre d'estacions"""
+    
     def __init__(
             self, 
             board: Board, 
@@ -401,8 +429,10 @@ class Station(Property):
         self._rent_with_4_stations = rent_with_4_stations
 
     def rent_calculation(self) -> int:
-
-        assert self._owner is not None #Comprovem que la casella té propietari, tot i que sabem que 100% en tindrà arribat a aquest punt
+        """Retorna el preu de lloguer segons el nombre d'estacions que té el propietari"""
+        
+        assert self._owner is not None 
+        
         num_stations = sum(1 for property in self._owner.owned_properties() if isinstance(property, Station))
 
         if num_stations == 1:
@@ -420,6 +450,7 @@ class Station(Property):
         
 
 class Utility(Property):
+    """Gestió de les Utilities. (Lloguer: multiplicador x tirada daus)"""
     def __init__(
             self, 
             board: Board, 
@@ -437,9 +468,13 @@ class Utility(Property):
         self._rentMultiplierWithBoth = rentMultiplierWithBoth
     
     def rent_calculation(self) -> int:
-        assert self._owner is not None #Per evitar que surti error del Pylance
+        """
+        Retorna el preu del lloguer segons la tirada dels daus: 4x si té 1 utility, 10x si en té 2.
+        Tirada independent a la del moviment.
+        """
+        assert self._owner is not None 
         
-        dice1, dice2 = self._board.current_dice() #Tornem a tirar els daus
+        dice1, dice2 = self._board.current_dice() 
         num_utilities = sum(1 for property in self._owner.owned_properties() if isinstance(property, Utility))
         
         if num_utilities == 1:
@@ -450,6 +485,11 @@ class Utility(Property):
             return self._rentMultiplierWithBoth * (dice1 + dice2)
     
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        """
+        Gestió quan es cau a una casella d'aquest tipus depenent 
+        si es ve des d'una targeta o no (ja que canvia el multiplicador)
+        """
+
         if self._is_mortgaged:
             return
         if self.availability():
@@ -460,7 +500,7 @@ class Utility(Property):
                 if rent_multiplier != 1: #Significa que el land_on s'ha cridat des d'una targeta chance
                     dice1, dice2 = self._board.current_dice()
                     rent = rent_multiplier * (dice1 + dice2)
-                else: #càlcul normal
+                else: # Càlcul normal
                     rent = self.rent_calculation()
                 player.pay(rent)
                 self._owner.receive(rent)
@@ -468,6 +508,7 @@ class Utility(Property):
         
 
 class chance(Tile):
+    """Gestió de casella Chance"""
     def __init__(
         self, 
         board: Board, 
@@ -479,11 +520,13 @@ class chance(Tile):
         super().__init__(board, position, name, tile_type, description)
 
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        """Si es cau en aquesta casella, el jugador agafa una carta i fa el que digui"""
         card = self._board.chance_deck().draw_card()
         print(f"{player.name()} agafa una chance card")
         card.execute(player)
 
 class community_chest(Tile):
+    """Gestió de casella Community_chest"""
     def __init__(
         self, 
         board: Board, 
@@ -495,12 +538,14 @@ class community_chest(Tile):
         super().__init__(board, position, name, tile_type, description)
     
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        """Si es cau en aquesta casella, el jugador agafa una carta i fa el que digui"""
         card = self._board.community_chest_deck().draw_card()
         print(f"{player.name()} agafa una community_chest card")
         card.execute(player)
        
 
 class tax(Tile):
+    """Gestió de casella de Tax"""
     def __init__(
         self, 
         board: Board, 
@@ -514,10 +559,12 @@ class tax(Tile):
         self._amount = amount
 
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        """Si es cau en aquesta casella, el jugador paga el que digui la casella"""
         player.pay(self._amount)
         print(f"{player.name()} paga {self._amount}$ d'impostos: {self._name}")
 
 class special(Tile):
+    """Gestió de caselles especials (GO, Just visiting, Free Parking, Go to Jail)"""
     def __init__(
         self, 
         board: Board, 
@@ -529,12 +576,13 @@ class special(Tile):
         super().__init__(board, position, name, tile_type, description)
 
     def land_on(self, player: Player, rent_multiplier: int = 1) -> None:
+        """Si es cau en una casella d'aquest tipus, només Go to Jail té execució"""
         if self._name == "Go To Jail":
             player.go_to_prison()
             print(f"{player.name()} ha caigut a la casella d'anar a la presó!!!")
 
 def build_tile(board: Board , data: dict[str, Any]) -> Tile:
-
+    """Build a tile from JSON"""
     tile_type = data["type"]
 
     if tile_type == "property":
