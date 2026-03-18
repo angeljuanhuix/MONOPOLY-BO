@@ -110,7 +110,7 @@ def test_player_get_out_of_jail_cards(test_player: Player) -> None:
     
     assert len(test_player.get_out_of_jail_cards()) == 1
 
-def test_player_prison_turns_management(test_player: Player) -> None:
+def test_player_prison_turns_counter(test_player: Player) -> None:
     """
     Comprova que s'afegeixen correctament 
     els torns de la presó i que es poden llegir

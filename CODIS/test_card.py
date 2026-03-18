@@ -35,6 +35,7 @@ def p3(test_board: Board):
     return players[2]
 
 # MOVIMENT 
+
 def test_move_to_position_passes_go( p1: Player) -> None:
     """
     Comprova que el jugador rep els diners (si passa pel GO) 

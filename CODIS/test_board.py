@@ -14,9 +14,9 @@ def test_board() -> Board:
     )
 
 
-def test_tiles_count(test_board: Board) -> None:
-    """Comprova que el tauler té 40 caselles"""
-    assert len(test_board.tiles()) == 40
+def test_number_tiles(test_board: Board) -> None:
+    """Comprova que el nombre de caselles és 40"""
+    assert test_board.number_tiles() == 40
 
 def test_players_count(test_board: Board) -> None:
     """Comprova que el tauler té el nombre correcte de jugadors"""
@@ -25,10 +25,6 @@ def test_players_count(test_board: Board) -> None:
 def test_jail_position(test_board: Board) -> None:
     """Comprova que la posició de la presó és 10"""
     assert test_board.jail_position() == 10
-
-def test_number_tiles(test_board: Board) -> None:
-    """Comprova que el nombre de caselles és 40"""
-    assert test_board.number_tiles() == 40
 
 def test_current_player_is_first(test_board: Board) -> None:
     """Comprova que el jugador actual és el primer"""
@@ -40,30 +36,24 @@ def test_current_dice_range(test_board: Board) -> None:
     assert 1 <= dice1 <= 6
     assert 1 <= dice2 <= 6
 
-def test_dice_returns_tuple(test_board: Board) -> None:
-    """Comprova que current_dice retorna una tupla"""
-    test_board.current_dice()
-    result = test_board.dice()
-    assert isinstance(result, tuple)
-    assert len(result) == 2
-
 # FUNCIÓ CHECK BANKRUPTCY
+
 def test_check_bankruptcy_marks_player(test_board: Board) -> None:
-    """Comprova que un jugador amb diners negatius fa bancarota"""
+    """Comprova que un jugador amb diners negatius fa fallida"""
     player = test_board.players()[0]
     player.pay(2500) #Ens assegurem que estigui en nombres negatius
     test_board.check_bankruptcy()
     assert player.is_bankrupt()
 
 def test_check_bankruptcy_resets_money(test_board: Board) -> None:
-    """Comprova que els diners es posen a 0 en bancarota"""
+    """Comprova que els diners es posen a 0 en fallida"""
     player = test_board.players()[0]
     player.pay(2500) #Ens assegurem que estigui en nombres negatius
     test_board.check_bankruptcy()
     assert player.money() == 0
 
 def test_check_bankruptcy_releases_properties(test_board: Board) -> None:
-    """Comprova que les propietats es alliberen en bancarota"""
+    """Comprova que les propietats s'alliberen quan s'està en fallida"""
     player = test_board.players()[0]
     street = test_board.tiles()[1]
     assert isinstance(street, Property)  # Pylance ja sap que és Property
@@ -91,8 +81,8 @@ def test_check_bankruptcy_only_affects_broke_players(test_board: Board) -> None:
     assert player1.is_bankrupt()
     assert not player2.is_bankrupt()
 
-def test_check_bankruptcy_not_triggered_positive_money(test_board: Board) -> None:
-    """Comprova que no fa bancarota si té diners positius"""
+def test_check_bankruptcy_not_broke_positive_money(test_board: Board) -> None:
+    """Comprova que no se'n va a la fallida si té diners positius"""
     player = test_board.players()[0]
     test_board.check_bankruptcy()
     assert not player.is_bankrupt()

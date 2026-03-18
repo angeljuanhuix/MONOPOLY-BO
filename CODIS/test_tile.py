@@ -38,7 +38,7 @@ def owner(test_board: Board) -> Player:
 
 @pytest.fixture
 def visitor(test_board: Board) -> Player:
-    """Retorna un player que farà de visitor"""
+    """Retorna un player que farà de visitant"""
     return Player(test_board, "Visitor", "Barret", "Groc", 0, Simple_Strategy())
 
 @pytest.fixture

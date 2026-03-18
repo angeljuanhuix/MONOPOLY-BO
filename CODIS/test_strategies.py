@@ -45,7 +45,7 @@ def test_player_simple_strategy_other_desires() -> None:
     carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
     )
     
-    #Independentments dels diners, ha de donar això, perquè així és l'estratègia
+    #Independentments dels diners, ha de donar False, perquè així és l'estratègia
     assert player.wants_to_build_house(carrer) is False
     assert player.wants_to_build_hotel(carrer) is False
     assert player.wants_to_sell_house(carrer) is False
