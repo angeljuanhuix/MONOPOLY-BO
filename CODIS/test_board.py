@@ -87,3 +87,10 @@ def test_check_bankruptcy_not_broke_positive_money(test_board: Board) -> None:
     player = test_board.players()[0]
     test_board.check_bankruptcy()
     assert not player.is_bankrupt()
+
+def test_check_bankruptcy_not_broke_0_money(test_board: Board) -> None:
+    """Comprova que si algú es queda a 0$, no es considera que està en fallida"""
+    player = test_board.players()[0]
+    player.pay(1000) #diners que té exactes
+    assert player.money() == 0
+    assert not player.is_bankrupt()

@@ -1,8 +1,9 @@
 # PROJECTE MONOPOLY 2026 🎲
-Aquest projecte tracta sobre la creació d'un monopoli totalment funcional (amb jugadors automàtics) i amb algunes diferències respecte el joc original. El joc es mostra en un html a part gràcies a la creació d'imatges .svg que representen cada acció i moviment fet durant la partida. Aquest README serveix per consultar qualsevol dubte que es tingui respecte al projecte.
+Aquest projecte tracta sobre la creació d'un monopoli totalment funcional (amb jugadors automàtics) i amb algunes diferències respecte al joc original. El joc es mostra en un html a part gràcies a la creació d'imatges .svg que representen cada acció i moviment fet durant la partida. Aquest README serveix per consultar qualsevol dubte que es tingui respecte al projecte.
 
 # Índex
 - **[Requeriments](#requeriments)**
+- **[Preparació de la partida](#preparació-de-la-partida)**
 - **[Com s'executa el joc](#com-sexecuta-el-joc)**
 - **[Com visualitzar el joc](#com-visualitzar-el-joc)**
 - **[Estructura del projecte](#estructura-del-projecte)**
@@ -15,15 +16,27 @@ Cal instal·lar la llibreria ``drawsvg``:
 
 **CODI:** ``python3 -m pip install drawsvg``
 
-I per executar els tests:
+I també *(necessari per executar els tests)*:
 
 ``pip install pytest pytest-cov``
 
+## Preparació de la partida
+![Imatge de preparació](preparacio.jpg)
+
+Actualment les **constants** que hi ha són:
+- *GO_SALARY*: 50$
+- *START_MONEY*: 1000$
+
+Com es pot veure a la imatge, el ``random.seed(25)`` és a la posició **(1)** *(en aquesta posició es genera sempre la mateixa partida)*. S'ha escollit aquesta *seed* perquè es pot veure **la majoria d'accions possibles (fins i tot algú es queda a 0$)** que es poden fer en el joc i així el *corrector/a* pugui veure el ***correcte funcionament*** del meu codi.
+
+Si es desitja generar partides aleatories cada vegada que s'executa el main, s'ha de col·locar el ``random.seed(25)`` a la posició **(2)**. I si directament es vol que sempre s'executi la mateixa partida, però que sigui diferent a la que hi ha assignada, doncs s'ha de canviar el nombre ``25`` per un altre.
+
+⚠️ *Vigilar* que si es canvia aquest paràmetre, depenent de la partida **potser no té final.**
+
 ## Com s'executa el joc
 1. Situa't a la carpeta ``PROJECTE_MONOPOLY``
-2. Actualment és a la seed EXPLICAAAAAAAAR
-3. Executa el ``main.py`` (Clicant a ▶️ o escrivint a la terminal ``python CODIS/main.py``)
-4. Introdueix el nombre de jugadors (2-4) quan t'ho demani la terminal.
+2. Executa el ``main.py`` (Clicant a ▶️ o escrivint a la terminal ``python CODIS/main.py``)
+3. Introdueix el nombre de jugadors *(2-4)* quan t'ho demani la terminal.
 
 El joc crearà les imatges a la carpeta ``images`` dins de ``CODIS`` 
 ## Com visualitzar el joc
@@ -78,7 +91,7 @@ Per defecte és 1 perquè no afecti el càlcul del lloguer, però el multiplier 
 
 ***PER QUÈ ``Utility`` TÉ UN ``land_on`` PARTICULAR?***
 
-Perquè la targeta indica que el multiplicador ha de ser **x10** independentment de quantes utilities tingui. És diferent que les estacions on només s'havia de multiplicar el resultat final.
+Perquè la targeta indica que el multiplicador ha de ser **x10** independentment de quantes utilities tingui. És diferent que les estacions on només s'ha de multiplicar el resultat final.
 
 ### ``player.py``
 Emmagatzema tot el seu estat: *posició al taulell, diners, propietats comprades, targetes de sortida de presó i si està a la presó o en fallida*. Les decisions de joc *(comprar, construir, hipotecar...)* es fan o no depenent de l'estratègia assignada mitjançant els mètodes ``wants_to_*()``, que simplement consulten l'estratègia i retornen un booleà. El moviment es gestiona amb ``move()``, que avança el jugador i cobra **GO_SALARY** automàticament si passa per la sortida. La presó i la fallida tenen els seus propis mètodes (``go_to_prison(), leave_prison(), go_bankrupt()``) que van actualitzant l'estat del jugador
@@ -111,9 +124,9 @@ Es generen frames extres en els següents casos:
 
 **GESTIÓ DE FALLIDA**
 
-Quan un jugador queda amb ***diners negatius*** després d'un ``land_on``:
+Quan un jugador queda amb ***diners negatius (tenint 0$ segueixes viu)*** després d'un ``land_on``:
 
-- Totes les *propietats* tornen **al banc**
+- Totes les *propietats* tornen **al banc** *(per fomentar que durant la partida, l'estratègia tingui un paper important i hagi de decidir si comprar les caselles que ara estan buides o no)*
 - Les *targetes per sortir de la presó* tornen a **baix del piló** d'allà on s'han agafat inicialment
 - El jugador es *marca* com ``is_bankrupt = True`` i els diners es posen a 0$
 - *Les peces* dels jugadors es queden **allà on ha mort**, perquè així, quan acabem la partida, sabem en quina casella ha mort cadascú.
@@ -147,7 +160,7 @@ S'ha posat un *límit* en el bucle perquè la partida acabi quan queda **una per
 
 **GESTIÓ DE TORNS**
 
-Llança els daus automàticament (``current_dice``), comprova si hi ha dobles per permetre tirs extra i avança l'índex per passar el següent jugador, sempre ignorant els que estan en fallida.
+Llança els daus automàticament (``current_dice``), comprova si hi ha dobles per permetre tirs extra i avança l'índex per passar al següent jugador, sempre ignorant els que estan en fallida.
 
 **LÒGICA DE LA PRESÓ**
 
@@ -170,7 +183,7 @@ Per simplificar el procés de creació del projecte, s'han fet alguns canvis res
 ## Testing 
 ***COVERAGE ACONSEGUIT:*** *93,16%🔋* 
 
-(No s'ha comptat el ``board.py``, ja que s'hi *dibuixen les imatges* i no es vol que es creïn noves imatges mentres es fan testos i per tant, com no ha estat testejat tant exhaustivament, té un percentatge baix.)
+(No s'ha comptat el ``board.py``, ja que s'hi *dibuixen les imatges* i no es vol que es creïn noves imatges mentres es fan testos i per tant, com no ha estat testejat tan exhaustivament, no té un percentatge tan alt.)
 
 Els tests es troben dins de la carpeta ``/CODIS`` amb els noms ``test_board``, ``test_card``, ``test_player``, ``test_strategies``, ``test_tile``.
 
@@ -187,6 +200,12 @@ Fent això es mostren el % de línies comprovades amb els testos
 - ``pytest``: Marc de treball per fer proves
 - ``@pytest.fixture``: Permet crear objectes de prova reutilitzables (board, player, ...) i s'inicialitzen automàticament a cada test
 - ``os.path``: Per indicar la ruta dels JSON 
-- ``cast()``: Utilitzat en alguns testos. El que fa és dir que una variable és de cert tipus, per exemple, s'ha fet que ``test_board = cast(Board, None)`` perquè així no es tinguin problemes amb el mypy i no s'hagi de crear un board sencer per provar coses que *no* necessita el board.
+- ``cast()``: Utilitzat en alguns testos. Declara que una variable és d'un cert tipus, per exemple, s'ha fet que ``test_board = cast(Board, None)`` perquè així no es tinguin problemes amb el *pylance* i no s'hagi de crear un board sencer per provar coses que *no* necessita el board.
 
-
+| Fitxer | Què es testeja?
+|---|---
+| ``test_card.py`` | Totes les subclasses de ``Card``: **moviment** *(posició, estació, utility, endarrere)*, **presó** *(anar i poder sortir)*, **diners** *(cobrar i pagar)* i targetes que afecten a **múltiples jugadors**
+| ``test_tile.py`` | Els diferents tipus de **caselles**: *compra i disponibilitat, lloguers, construccions i ventes uniformes, tax, Go To Jail, Chance i Community Chest*
+| ``test_player.py`` | *Inicialitzador del jugador, moviment i pas pel GO, gestió de propietats, targetes de presó, torns a la presó i fallida*
+| ``test_strategies.py`` | Les dues estratègies(``Simple_strategy`` i ``Smart_strategy``) en tres situacions diferents: *ric, regular i pobre*
+| ``test_board.py`` | *Inicialitzador del taulell, getters bàsics, tirada de daus i gestió de la fallida*

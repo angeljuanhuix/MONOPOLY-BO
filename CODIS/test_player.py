@@ -90,7 +90,7 @@ def test_player_properties_management(test_player: Player) -> None:
     test_player.clear_properties()
     assert len(test_player.owned_properties()) == 0
 
-#GESTIÓ RELACIONADA AMB LA PRESÓ (Cartes, management...)
+#GESTIÓ RELACIONADA AMB LA PRESÓ (Targetes, management...)
 
 def test_player_get_out_of_jail_cards(test_player: Player) -> None:
     """
@@ -144,7 +144,7 @@ def test_player_leave_prison(test_player: Player) -> None:
 def test_player_jail_cards_management(test_player: Player) -> None:
     """Comprova el cicle complet de les cartes de sortir de la presó."""
     
-    test_card = cast(Card, "Carta Test")
+    test_card = cast(Card, "Get Out Of Jail")
     
     # Comprova que s'agafa correctament
     test_player.add_get_out_of_jail_free_card(test_card)
@@ -155,7 +155,7 @@ def test_player_jail_cards_management(test_player: Player) -> None:
     assert carta_usada == test_card
     assert test_player.get_out_of_jail_free_cards() == 0
     
-    # Comprova que la funció de netejar funciona (quan cau en bancarota s'utilitza la funció)
+    # Comprova que la funció de netejar funciona (quan cau en fallida s'utilitza la funció)
     test_player.add_get_out_of_jail_free_card(test_card)
     test_player.clear_jail_cards()
     assert test_player.get_out_of_jail_free_cards() == 0
@@ -165,7 +165,7 @@ def test_player_go_to_prison(test_player: Player) -> None:
     test_player.go_to_prison()
     
     assert test_player.position() == 10 # 10 és la casella de la presó
-    assert test_player.is_in_prison() is True # Comprova l'estat intern
+    assert test_player.is_in_prison() is True # Comprova l'estat 
 
 #GESTIÓ DE BROKE I BANCAROTA
 

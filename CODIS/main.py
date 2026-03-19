@@ -19,6 +19,7 @@ def main() -> None:
         num_players = num_players
     )
 
+
     board.play()
 
     

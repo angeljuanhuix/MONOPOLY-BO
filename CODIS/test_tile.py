@@ -50,12 +50,12 @@ def test_street(test_board: Board) -> Street:
 
 # TEST DE DISPONIBILITAT I HIPOTEQUES
 
-def test_property_mortgage_flow(test_board: Board, owner: Player) -> None:
+def test_property_mortgage(test_board: Board, owner: Player) -> None:
     """
     Comprova la disponibilitat de la casella i totes
     les funcions relacionades amb hipotèques
     """
-    prop = Property(test_board, 1, "Generic", "property", 200, 20, 100, "Desc")
+    prop = Property(test_board, 1, "Generic", "property", 200, 20, 100, "Description") # Ens inventem un exemple de propietat
     
     # Comprova disponibilitat inicial
     assert prop.availability() is True
@@ -68,7 +68,7 @@ def test_property_mortgage_flow(test_board: Board, owner: Player) -> None:
     prop.do_mortgage()
     assert prop.is_mortgaged is True
     
-    # Comprovació que no es pot hipotecar si ja ho
+    # Comprovació que no es pot hipotecar si ja ho està
     assert prop.can_mortgage() is False
     
     # Comprova tot el funcionament de deshipotecar
@@ -114,8 +114,8 @@ def test_street_building_restrictions_and_rent_with_houses(test_board: Board, ow
     la construcció uniforme d'hotels i cases.
     """
     # Es crea el monopoli marró. (rentWithHotel = 250)
-    s1 = Street(test_board, 1, "Brown 1", "property", "brown", 60, 2, 4, 10, 30, 90, 160, 250, 50, 50, 30)
-    s2 = Street(test_board, 3, "Brown 2", "property", "brown", 60, 4, 8, 20, 60, 180, 320, 450, 50, 50, 30)
+    s1 = Street(test_board, 1, "Old Kent Road", "property", "brown", 60, 2, 4, 10, 30, 90, 160, 250, 50, 50, 30)
+    s2 = Street(test_board, 3, "Whitechapel Road", "property", "brown", 60, 4, 8, 20, 60, 180, 320, 450, 50, 50, 30)
     
     # Owner té el monopoli
     s1.buy(owner)
@@ -134,7 +134,7 @@ def test_street_building_restrictions_and_rent_with_houses(test_board: Board, ow
     assert s1.houses == 4
     assert s2.houses == 4
     
-    # 4 cases → lloguer amb 4 cases
+    # 4 cases -> lloguer amb 4 cases
     assert s1.rent_calculation() == 160
 
     assert s1.can_build_house() is False # Límit de cases assolit
@@ -153,8 +153,8 @@ def test_street_selling_buildings(test_board: Board, owner: Player) -> None:
     que s'afegeixin correctament els diners al capital del jugador"""
 
     # Owner té el monopoli
-    s1 = Street(test_board, 1, "Brown 1", "property", "brown", 60, 2, 4, 10, 30, 90, 160, 250, 50, 50, 30)
-    s2 = Street(test_board, 3, "Brown 2", "property", "brown", 60, 4, 8, 20, 60, 180, 320, 450, 50, 50, 30)
+    s1 = Street(test_board, 1, "Old Kent Road", "property", "brown", 60, 2, 4, 10, 30, 90, 160, 250, 50, 50, 30)
+    s2 = Street(test_board, 3, "Whitechapel Road", "property", "brown", 60, 4, 8, 20, 60, 180, 320, 450, 50, 50, 30)
     s1.buy(owner)
     s2.buy(owner)
     

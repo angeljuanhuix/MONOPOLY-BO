@@ -86,7 +86,6 @@ class Board:
         # FRAME EXTRA si és Utility: 
         # 1r Frame: El moviment     2n Frame: Llançament de daus per saber el preu del lloguer
         if isinstance(current_tile, Utility) and not current_tile.availability(): 
-         #   draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
             draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
             image_frame += 1
                     
@@ -206,13 +205,13 @@ class Board:
         """Mètode principal. Gestiona tot el que passa durant la partida"""
         from draw import draw
 
-        #GENERACIÓ DE LA i DEL TAULELL ABANS DE COMENÇAR
+        #GENERACIÓ DE LA IMATGE DEL TAULELL ABANS DE COMENÇAR
         image_frame = 0 
         self._current_dice = (0, 0)
         draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
         image_frame += 1
 
-        # Es va executant fins que quedi un jugador o es passing de més de 600 frames
+        # Es va executant fins que quedi un jugador o es passing de més de 2000 frames
         while sum(1 for p in self._players if not p.is_bankrupt()) > 1 and image_frame < 2000: 
             
             self._num_double = 0

@@ -4,6 +4,9 @@ from player import Player
 from board import Board
 import os
 
+#EN AQUEST TEST, PER EVITAR COPIAR LES LLARGUES DESCRIPCIONS QUE TENEN LES TARGETES, S'HAN POSAT LLETRES SÍMBOLIQUES
+#PERQUÈ EL MÉS IMPORTANT PER FER AQUESTS TESTOS ÉS QUE ESTIGUI BÉ L'ACCIÓ DE LA TARGETA PER INDICAR QUÈ S'HA D'EXECUTAR
+
 @pytest.fixture
 def test_board() -> Board:
     """Retorna un board real creat per fer testos"""
@@ -42,9 +45,9 @@ def test_move_to_position_passes_go( p1: Player) -> None:
     quan rep una carta de moure's a x posició
     """
     p1.set_position(30)
-    build_card({"id": 1, "title": "A", "description": "D", "action": "move_to_position", "position": 5}).execute(p1)
-    assert p1.position() == 5
-    assert p1.money() == 850 # Comença amb 750$ + 50$ per passar pel GO, però -200$ perquè la posició 5 hi ha una estació
+    build_card({"id": 2, "title": "Advance to Trafalgar Square", "description": "Advance to Trafalgar Square. If you pass Go, collect £200", "action": "move_to_position", "position": 24}).execute(p1)
+    assert p1.position() == 24
+    assert p1.money() == 810 # Comença amb 1000$ + 50$ per passar pel GO, però -240$ perquè és el que val el lloguer
     #i com en aquest test, no té propietari, doncs el jugador la compra. SI ES CANVIEN LES CONSTANTS, AQUEST SORTIRÀ MALAMENT
 
 def test_move_to_nearest_station_from_36(p1: Player) -> None:
@@ -54,7 +57,7 @@ def test_move_to_nearest_station_from_36(p1: Player) -> None:
     """
     p1.set_position(36)
     money_before = p1.money()
-    build_card({"id": 2, "title": "A", "description": "D", "action": "move_to_nearest_station", "rentMultiplier": 2}).execute(p1)
+    build_card({"id": 4, "title": "A", "description": "D", "action": "move_to_nearest_station", "rentMultiplier": 2}).execute(p1)
     assert p1.position() == 5
     assert p1.money() == money_before + 50 - 200  # GO (+50) buy_station(-200)
 
@@ -132,8 +135,8 @@ def test_pay_money(p1: Player) -> None:
 
 def test_pay_per_property(test_board: Board, p1: Player) -> None:
     """Comprova que el jugador paga els diners que li toquen per casa"""
-    s1 = Street(test_board, 1, "S1", "property", "brown", 60, 2, 4, 10, 30, 90, 160, 250, 50, 50, 30)
-    s2 = Street(test_board, 3, "S2", "property", "brown", 60, 4, 8, 20, 60, 180, 320, 450, 50, 50, 30)
+    s1 = Street(test_board, 1, "Old Kent Road", "property", "brown", 60, 2, 4, 10, 30, 90, 160, 250, 50, 50, 30)
+    s2 = Street(test_board, 3, "Whitechapel Road", "property", "brown", 60, 4, 8, 20, 60, 180, 320, 450, 50, 50, 30)
     s1.buy(p1)
     s2.buy(p1)
     for _ in range(4):
