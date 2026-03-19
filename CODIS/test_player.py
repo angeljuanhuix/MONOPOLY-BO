@@ -12,7 +12,7 @@ def test_player() -> Player:
     
     
     test_board = cast(Board, None) #Fem que el board pugui ser None perquè no s'utilitzarà per testejar el player.py
-    return Player(board = test_board , name="Test", piece="Hat", color="Blue", index=0, strategy = Simple_Strategy())
+    return Player(board = test_board , name="Jordi", piece="🚘", color="LightCoral", index=0, strategy = Simple_Strategy())
 
 
 #ATRIBUTS BÀSICS
@@ -23,9 +23,9 @@ def test_player_basic_getters_and_initialization(test_player: Player) -> None:
     mètodes bàsics funcionen correctament
     """
     
-    assert test_player.name() == "Test"
-    assert test_player.piece == "Hat"
-    assert test_player.color() == "Blue"
+    assert test_player.name() == "Jordi"
+    assert test_player.piece == "🚘"
+    assert test_player.color() == "LightCoral"
     assert test_player.index() == 0
     assert test_player.board() is None  
     assert isinstance(test_player.strategy(), Strategy)

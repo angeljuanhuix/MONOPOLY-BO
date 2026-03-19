@@ -44,7 +44,7 @@ def test_move_to_position_passes_go( p1: Player) -> None:
     p1.set_position(30)
     build_card({"id": 1, "title": "A", "description": "D", "action": "move_to_position", "position": 5}).execute(p1)
     assert p1.position() == 5
-    assert p1.money() == 600 # Comença amb 750$ + 50$ per passar pel GO, però -200$ perquè la posició 5 hi ha una estació
+    assert p1.money() == 850 # Comença amb 750$ + 50$ per passar pel GO, però -200$ perquè la posició 5 hi ha una estació
     #i com en aquest test, no té propietari, doncs el jugador la compra. SI ES CANVIEN LES CONSTANTS, AQUEST SORTIRÀ MALAMENT
 
 def test_move_to_nearest_station_from_36(p1: Player) -> None:

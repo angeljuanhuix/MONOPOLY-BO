@@ -34,12 +34,12 @@ def real_board():
 @pytest.fixture
 def owner(test_board: Board) -> Player:
     """Retorna un player que farà de propietari"""
-    return Player(test_board, "Owner", "Barret", "Groc", 0, Simple_Strategy())
+    return Player(test_board, "Jordi", "🚘", "LightCoral", 0, Simple_Strategy())
 
 @pytest.fixture
 def visitor(test_board: Board) -> Player:
     """Retorna un player que farà de visitant"""
-    return Player(test_board, "Visitor", "Barret", "Groc", 0, Simple_Strategy())
+    return Player(test_board, "Mireia", "🐧", "LightBlue", 0, Simple_Strategy())
 
 @pytest.fixture
 def test_street(test_board: Board) -> Street:
@@ -206,7 +206,7 @@ def test_station_calculation(test_board: Board, owner: Player) -> None:
     st1 = Station(test_board, 5, "Kings Cross Station", "station", 200, 25, 100, 50, 100, 200)
     st2 = Station(test_board, 15, "Marylebone Station", "station", 200, 25, 100, 50, 100, 200)
     st3 = Station(test_board, 25, "Fenchurch St Station", "station", 200, 25, 100, 50, 100, 200)
-    st4 = Station(test_board, 15, "Liverpool Street Station", "station", 200, 25, 100, 50, 100, 200)
+    st4 = Station(test_board, 35, "Liverpool Street Station", "station", 200, 25, 100, 50, 100, 200)
     
     st1.buy(owner)
     assert st1.rent_calculation() == 25

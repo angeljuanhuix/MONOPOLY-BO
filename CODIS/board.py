@@ -178,7 +178,8 @@ class Board:
     
     def check_bankruptcy(self) -> None:
         """
-        Comprova si algun jugador ha anat a la fallida 
+        Comprova si algun jugador ha anat a la fallida, i si és el cas,
+        executa tot el procés de canvis que succeixen quan se'n va a la fallida
         """
 
         bankrupt_players = [player for player in self._players if player.broke() and not player.is_bankrupt()]

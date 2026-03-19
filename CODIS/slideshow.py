@@ -126,7 +126,7 @@ def main() -> None:
     with open(page, "w", encoding = "UTF-8") as f:
         f.write(html)
         
-    print(f"ÈXIT! S'ha creat '{page}' amb {len(svgs)} imatges.")
+    print(f"S'ha creat '{page}' amb {len(svgs)} imatges.")
 
 if __name__ == "__main__":
     main()

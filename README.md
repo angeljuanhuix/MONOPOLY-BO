@@ -1,5 +1,5 @@
 # PROJECTE MONOPOLY 2026 🎲
-Aquest projecte tracta sobre la creació d'un monopoli totalment funcional, amb algunes diferències respecte el joc original. El joc es mostra en un html a part gràcies a la creació d'imatges .svg que representen cada acció i moviment de tota la partida. Aquest README serveix per consultar qualsevol dubte que es tingui respecte al projecte.
+Aquest projecte tracta sobre la creació d'un monopoli totalment funcional (amb jugadors automàtics) i amb algunes diferències respecte el joc original. El joc es mostra en un html a part gràcies a la creació d'imatges .svg que representen cada acció i moviment fet durant la partida. Aquest README serveix per consultar qualsevol dubte que es tingui respecte al projecte.
 
 # Índex
 - **[Requeriments](#requeriments)**
@@ -15,23 +15,24 @@ Cal instal·lar la llibreria ``drawsvg``:
 
 **CODI:** ``python3 -m pip install drawsvg``
 
+I per executar els tests:
+
+``pip install pytest pytest-cov``
+
 ## Com s'executa el joc
 1. Situa't a la carpeta ``PROJECTE_MONOPOLY``
-2. Executa el ``main.py`` (Clicant a ▶️ o escrivint a la terminal ``python CODIS/main.py``)
-3. Introdueix el nombre de jugadors (2-4) quan t'ho demani la terminal.
+2. Actualment és a la seed EXPLICAAAAAAAAR
+3. Executa el ``main.py`` (Clicant a ▶️ o escrivint a la terminal ``python CODIS/main.py``)
+4. Introdueix el nombre de jugadors (2-4) quan t'ho demani la terminal.
 
 El joc crearà les imatges a la carpeta ``images`` dins de ``CODIS`` 
 ## Com visualitzar el joc
-1. Situa't dins ``PROJECTE_MONOPOLY\CODIS``
-2. Executa a la terminal: ``python3 slideshow.py partida.html (ls images/imatge*.svg)`` o ``python3 slideshow.py partida.html $(Get-ChildItem images/*.svg)`` 
+1. Situa't dins ``PROJECTE_MONOPOLY\CODIS`` des de la terminal
+2. Executa a la terminal (Windows): ``python3 slideshow.py partida.html``
 
-Si utilizes MAC, prova el següent codi: ``python3 slideshow.py partida.html images/imatge*.svg``
+Si utilizes MAC, prova el següent codi: ``python3 slideshow.py partida.html images/i*.svg`` (tot i que l'altre també et funcionaria)
 
 3. Obre el fitxer ``partida.html`` per veure la partida
-
-**ATENCIÓ!⚠️**
-
-Hi ha la possibilitat que salti un error quan s'intenten visualitzar moltes imatges (Problema de Windows). Si per mala sort et salta, visualitza la partida manualment des del VS Code.
 
 ## Estructura del projecte
 <pre>
@@ -79,6 +80,9 @@ Per defecte és 1 perquè no afecti el càlcul del lloguer, però el multiplier 
 
 Perquè la targeta indica que el multiplicador ha de ser **x10** independentment de quantes utilities tingui. És diferent que les estacions on només s'havia de multiplicar el resultat final.
 
+### ``player.py``
+Emmagatzema tot el seu estat: *posició al taulell, diners, propietats comprades, targetes de sortida de presó i si està a la presó o en fallida*. Les decisions de joc *(comprar, construir, hipotecar...)* es fan o no depenent de l'estratègia assignada mitjançant els mètodes ``wants_to_*()``, que simplement consulten l'estratègia i retornen un booleà. El moviment es gestiona amb ``move()``, que avança el jugador i cobra **GO_SALARY** automàticament si passa per la sortida. La presó i la fallida tenen els seus propis mètodes (``go_to_prison(), leave_prison(), go_bankrupt()``) que van actualitzant l'estat del jugador
+
 ### ``strategies.py``
 Els jugadors automàtics faran una acció o un altre gràcies a la classe ``Strategy``. Cada estratègia conté un ``desire_of...`` que retorna un booleà indicant si es vol fer aquella acció o no.
 
@@ -95,7 +99,7 @@ Hi ha mètodes en el ``tile.py`` que diuen ``can_...``, aquests retornen un bool
 
 S'ha creat un mètode auxiliar pels daus anomenat ``dice`` que retorna el nombre de l'última tirada i el ``current_dice`` tira els daus (genera nombres) i retorna el resultat.
 
-El ***motiu*** és perquè en el ``draw.py``, per dibuixar el valors dels daus agafava ``current_dice`` i com aquesta funció genera nous nombres cada vegada que es crida, doncs no coincidirien el nombres de caselles que el jugador es mou i els nombres que surten en els daus.
+El ***motiu*** és perquè en el ``draw.py``, per dibuixar els valors dels daus agafava ``current_dice`` i com aquesta funció genera nous nombres cada vegada que es crida, doncs no coincidirien el nombres de caselles que el jugador es mou i els nombres que surten en els daus.
 
 **FRAMES EXTRES**
 
@@ -112,8 +116,8 @@ Quan un jugador queda amb ***diners negatius*** després d'un ``land_on``:
 - Totes les *propietats* tornen **al banc**
 - Les *targetes per sortir de la presó* tornen a **baix del piló** d'allà on s'han agafat inicialment
 - El jugador es *marca* com ``is_bankrupt = True`` i els diners es posen a 0$
-- *Les peces* dels jugadors es queden **allà on ha mort**
-- El *jugador* es queda **visible** tota la partida
+- *Les peces* dels jugadors es queden **allà on ha mort**, perquè així, quan acabem la partida, sabem en quina casella ha mort cadascú.
+- El *jugador* es queda **visible** tota la partida *(El seu quadrat on es mostren totes les seves estadístiques)*
 
 **TARGETES DE SORTIDA DE PRESÓ**
 
@@ -132,21 +136,39 @@ També, relacionat amb la **construcció uniforme**, en el ``board.py``, dins de
 S'han modificat les constants a ``const.py`` perquè les partides siguin més **dinàmiques** i durin menys frames. Per tant, perquè els jugadors amb una *estratègia simple* **NO comprin** tant i permetin els jugadors automàtics *més llestos* aconseguir monopolis, s'han implementat aquests canvis:
 
 - **Go Salary:** 200$ -> 50$
-- **Start Money:** 1500$ -> 750$
+- **Start Money:** 1500$ -> 1000$
 
+### ``def play()``
+Aquest mètode, situat en el ``board.py``, és el que fa funcionar tot el joc, ja que gestiona el **bucle** sencer de la partida i s'encarrega de **generar les imatges** per visualitzar la partida.
+
+**GESTIÓ DE LA PARTIDA**
+
+S'ha posat un *límit* en el bucle perquè la partida acabi quan queda **una persona viva** o bé, quan s'han generat ja **2000 frames** i encara no ha acabat. S'ha fet per *evitar* un bucle molt llarg o fins i tot infinit.
+
+**GESTIÓ DE TORNS**
+
+Llança els daus automàticament (``current_dice``), comprova si hi ha dobles per permetre tirs extra i avança l'índex per passar el següent jugador, sempre ignorant els que estan en fallida.
+
+**LÒGICA DE LA PRESÓ**
+
+Gestiona totes les accions possibles que es poden fer mentres algú és a la **presó** i revisa si en aquell torn es compleix algun requisit per sortir-hi. *(Tirar dobles, utilitzar una carta de "Get Out of Jail" o si arriba al límit de 3 torns a la presó, sent el mateix tercer torn quan pot sortir)*
+
+**MOVIMENTS I ACCIONS**
+
+Mou els jugadors pel taulell i crida a la funció ``execute_tile`` per realitzar les accions de la casella. Si es sobreviu, es crida al mètode ``post_movement_actions`` que s'encarrega de gestionar les *compres i vendes de cases/hotels, hipoteques, deshipotecar...* I un cap finalitzat això, s'acaba el torn.
 
 ## Canvis respecte al joc original
 Per simplificar el procés de creació del projecte, s'han fet alguns canvis respecte les normes oficials dels jocs:
 
-- **NO** es poden subhastar les propietats
-- S'han modificat els diners inicials 
-- S'han modificat els diners que reben quan passen pel **GO**
+- **NO** es poden *subhastar* les propietats
+- S'han modificat els *diners inicials* 
+- S'han modificat els *diners* que reben quan passen pel **GO**
 - **NO** es pot sortir de la presó pagant *50$* ni s'ha de pagar quan es surt amb el tercer torn
-- Quan es cau en *fallida*, **totes les propietats** van al *banc* i poden tornar a ser comprades
-- **NO** es poden fer *tractes, ni intercanvis entre jugadors*
+- Quan es cau en *fallida*, **totes les propietats** van al *banc* i poden tornar a ser comprades per altres jugadors quan hi cauen
+- **NO** es poden fer *tractes ni intercanvis entre jugadors*
 
 ## Testing 
-***COVERAGE ACONSEGUIT:*** *93,16%🔋* (sense comptar el ``board.py``)
+***COVERAGE ACONSEGUIT:*** *93,16%🔋* 
 
 (No s'ha comptat el ``board.py``, ja que s'hi *dibuixen les imatges* i no es vol que es creïn noves imatges mentres es fan testos i per tant, com no ha estat testejat tant exhaustivament, té un percentatge baix.)
 

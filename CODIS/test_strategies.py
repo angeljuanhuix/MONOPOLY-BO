@@ -13,7 +13,7 @@ def test_player_simple_strategy_desire_buying() -> None:
 
     test_board = cast(Board, None)
 
-    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Simple_Strategy())
+    player = Player(board=test_board, name="Jordi", piece="🚘", color="LightCoral", index=0, strategy=Simple_Strategy())
     
     # Fem que el jugador tingui 1000$ inicialment(li restem el que té i li sumem 1000$)
     player.pay(player.money())
@@ -36,7 +36,7 @@ def test_player_simple_strategy_other_desires() -> None:
 
     test_board = cast(Board, None)
 
-    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Simple_Strategy())
+    player = Player(board=test_board, name="Jordi", piece="🚘", color="LightCoral", index=0, strategy=Simple_Strategy())
     
     # Comença amb 1000$
     player.pay(player.money())
@@ -60,7 +60,7 @@ def test_player_smart_strategy_rich() -> None:
     """
     test_board = cast(Board, None)
     
-    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
+    player = Player(board=test_board, name="Jordi", piece="🚘", color="LightCoral", index=0, strategy=Smart_Strategy())
     
     # Cost casa/hotel = 200
     carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
@@ -85,7 +85,7 @@ def test_player_smart_strategy_regular() -> None:
     """
     test_board = cast(Board, None)
     
-    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
+    player = Player(board=test_board, name="Jordi", piece="🚘", color="LightCoral", index=0, strategy=Smart_Strategy())
     
     # Cost casa/hotel = 200
     carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 
@@ -110,7 +110,7 @@ def test_player_smart_strategy_poor() -> None:
     """
     test_board = cast(Board, None)
     
-    player = Player(board=test_board, name="Test", piece="Hat", color="Blue", index=0, strategy=Smart_Strategy())
+    player = Player(board=test_board, name="Jordi", piece="🚘", color="LightCoral", index=0, strategy=Smart_Strategy())
     
     # Cost casa/hotel = 200
     carrer = Street(test_board, 37, "Park Lane", "property", "dark_blue", 350, 35, 70, 175, 500, 1100, 1300, 1500, 200, 200, 175 

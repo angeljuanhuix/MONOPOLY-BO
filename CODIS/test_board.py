@@ -53,7 +53,7 @@ def test_check_bankruptcy_resets_money(test_board: Board) -> None:
     test_board.check_bankruptcy()
     assert player.money() == 0
 
-def test_check_bankruptcy_releases_properties(test_board: Board) -> None:
+def test_check_bankruptcy_clear_properties(test_board: Board) -> None:
     """Comprova que les propietats s'alliberen quan s'està en fallida"""
     player = test_board.players()[0]
     street = test_board.tiles()[1]
