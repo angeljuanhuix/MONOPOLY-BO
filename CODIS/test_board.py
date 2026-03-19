@@ -2,6 +2,7 @@ import pytest
 import os
 from board import Board
 from tile import Property
+
 @pytest.fixture
 def test_board() -> Board:
     base_path = os.path.dirname(os.path.abspath(__file__))

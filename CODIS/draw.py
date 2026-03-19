@@ -196,19 +196,26 @@ def draw_board_tiles(d: dw.Drawing, board: Board, show_number: bool = False) -> 
         price = getattr(tile, "price", None)
         if tile.type() in ("property", "station", "utility") and price is not None:
             words.append(f"£{price}")
+        
         cx, cy = x + w / 2, y + h / 2
         font_size = min(20, max(6, int(w / 8)))
-        d.append(
-            dw.Text(
-                " ".join(words),
-                font_size,
-                cx,
-                cy,
-                text_anchor="middle",
-                dominant_baseline="middle",
-                font_family=FONT_FAMILY,
+        
+        line_height = font_size * 1.2
+        
+        start_y = cy - ((len(words) - 1) * line_height) / 2 + 15
+        
+        for i, word in enumerate(words):
+            d.append(
+                dw.Text(
+                    word,
+                    font_size,
+                    cx,
+                    start_y + i * line_height,
+                    text_anchor="middle",
+                    dominant_baseline="middle",
+                    font_family=FONT_FAMILY,
+                )
             )
-        )
         # Mortgaged properties: show "M" on the inside (inner corner)
         if tile.type() in ("property", "station", "utility") and getattr(
             tile, "is_mortgaged", False

@@ -45,7 +45,7 @@ def test_move_to_position_passes_go( p1: Player) -> None:
     build_card({"id": 1, "title": "A", "description": "D", "action": "move_to_position", "position": 5}).execute(p1)
     assert p1.position() == 5
     assert p1.money() == 600 # Comença amb 750$ + 50$ per passar pel GO, però -200$ perquè la posició 5 hi ha una estació
-    #i com en aquest test, no té propietari, doncs el jugador la compra
+    #i com en aquest test, no té propietari, doncs el jugador la compra. SI ES CANVIEN LES CONSTANTS, AQUEST SORTIRÀ MALAMENT
 
 def test_move_to_nearest_station_from_36(p1: Player) -> None:
     """
@@ -160,7 +160,8 @@ def test_collect_from_players(p1: Player, p2: Player, p3: Player) -> None:
     carta i el jugador que l'ha executat, ha rebut el que li toca
     """
     m1, m2, m3 = p1.money(), p2.money(), p3.money()
-    build_card({"id": 11, "title": "A", "description": "D", "action": "collect_from_players", "amountPerPlayer": 20}).execute(p1)
-    assert p1.money() == m1 + 40  # rep de p2 i p3
-    assert p2.money() == m2 - 20
-    assert p3.money() == m3 - 20
+    build_card({"id": 11, "title": "A", "description": "D", "action": "collect_from_players", "amountPerPlayer": 50}).execute(p1)
+    assert p1.money() == m1 + 100  # rep de p2 i p3
+    assert p2.money() == m2 - 50
+    assert p3.money() == m3 - 50
+    

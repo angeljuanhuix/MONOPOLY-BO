@@ -5,15 +5,13 @@ Usage: python3 slideshow.py page.html *.svg
 """
 
 import sys
-
+import glob
 
 def generate_slideshow(svgs: list[str]) -> str:
-    """Generate HTML page to display slideshow of SVGs with navigation buttons."""
     if not svgs:
         return "<html><body><p>No SVGs to display</p></body></html>"
 
-    # Escape SVG paths for JavaScript
-    escaped_paths = [path.replace("\\", "\\\\").replace("'", "\\'") for path in svgs]
+    escaped_paths = [path.replace("\\", "/").replace("'", "\\'") for path in svgs]
     paths_js = "[" + ", ".join(f"'{path}'" for path in escaped_paths) + "]"
 
     html = f"""<!DOCTYPE html>
@@ -91,53 +89,44 @@ def generate_slideshow(svgs: list[str]) -> str:
             document.getElementById('current-info').textContent = 
                 (currentIndex + 1) + ' / ' + svgPaths.length;
             
-            // Update button states
             document.getElementById('btn-first').disabled = currentIndex === 0;
             document.getElementById('btn-prev').disabled = currentIndex === 0;
             document.getElementById('btn-next').disabled = currentIndex === svgPaths.length - 1;
             document.getElementById('btn-last').disabled = currentIndex === svgPaths.length - 1;
         }}
         
-        function goToFirst() {{
-            currentIndex = 0;
-            updateDisplay();
-        }}
+        function goToFirst() {{ currentIndex = 0; updateDisplay(); }}
+        function goToPrev() {{ if (currentIndex > 0) {{ currentIndex--; updateDisplay(); }} }}
+        function goToNext() {{ if (currentIndex < svgPaths.length - 1) {{ currentIndex++; updateDisplay(); }} }}
+        function goToLast() {{ currentIndex = svgPaths.length - 1; updateDisplay(); }}
         
-        function goToPrev() {{
-            if (currentIndex > 0) {{
-                currentIndex--;
-                updateDisplay();
-            }}
-        }}
-        
-        function goToNext() {{
-            if (currentIndex < svgPaths.length - 1) {{
-                currentIndex++;
-                updateDisplay();
-            }}
-        }}
-        
-        function goToLast() {{
-            currentIndex = svgPaths.length - 1;
-            updateDisplay();
-        }}
-        
-        // Initialize on page load
         updateDisplay();
     </script>
 </body>
 </html>"""
-
     return html
 
 
 def main() -> None:
+    # Ara el programa només necessita saber el nom de l'arxiu HTML
     page = sys.argv[1]
-    svgs = sys.argv[2:]
+    
+    # Oblidem la terminal. Python busca directament a la carpeta "images"
+    rutes = glob.glob("images/*.svg")
+    svgs = [f.replace('\\', '/') for f in rutes]
+    
+    if not svgs:
+        print("ERROR: No s'ha trobat cap imatge a la carpeta 'images/'.")
+        print("Assegura't que la carpeta 'images' està al mateix lloc que slideshow.py")
+        return
+            
+    svgs.sort()
+
     html = generate_slideshow(svgs)
     with open(page, "w", encoding = "UTF-8") as f:
         f.write(html)
-
+        
+    print(f"ÈXIT! S'ha creat '{page}' amb {len(svgs)} imatges.")
 
 if __name__ == "__main__":
     main()

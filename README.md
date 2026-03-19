@@ -23,7 +23,10 @@ Cal instal·lar la llibreria ``drawsvg``:
 El joc crearà les imatges a la carpeta ``images`` dins de ``CODIS`` 
 ## Com visualitzar el joc
 1. Situa't dins ``PROJECTE_MONOPOLY\CODIS``
-2. Executa a la terminal: ``python3 slideshow.py partida.html (ls images/imatge*.svg)`` o ``python3 slideshow.py partida.html $(Get-ChildItem images/*.svg)``
+2. Executa a la terminal: ``python3 slideshow.py partida.html (ls images/imatge*.svg)`` o ``python3 slideshow.py partida.html $(Get-ChildItem images/*.svg)`` 
+
+Si utilizes MAC, prova el següent codi: ``python3 slideshow.py partida.html images/imatge*.svg``
+
 3. Obre el fitxer ``partida.html`` per veure la partida
 
 **ATENCIÓ!⚠️**

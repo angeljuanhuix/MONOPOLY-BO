@@ -86,17 +86,18 @@ class Board:
         # FRAME EXTRA si és Utility: 
         # 1r Frame: El moviment     2n Frame: Llançament de daus per saber el preu del lloguer
         if isinstance(current_tile, Utility) and not current_tile.availability(): 
-            draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+         #   draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
+            draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
             image_frame += 1
                     
         #FRAME EXTRA per mostrar la casella abans d'executar la carta
         if isinstance(current_tile, (chance, community_chest)):
-            draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+            draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
             image_frame += 1
 
         #FRAME EXTRA per mostrar la casella abans de moure's a la presó
         if isinstance(current_tile, (special)) and current_tile.name() == "Go To Jail":
-            draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+            draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
             image_frame += 1
                     
         
@@ -104,7 +105,7 @@ class Board:
 
         self.check_bankruptcy()
 
-        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") 
+        draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg") 
         image_frame += 1
 
         return image_frame
@@ -129,28 +130,28 @@ class Board:
                     #Vendre hotel segons l'estratègia i si es pot fer
                     if player.wants_to_sell_hotel(property) and property.can_sell_hotel():
                         property.sell_hotel()
-                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
                         image_frame += 1
                         action_done = True
                     
                     #Vendre casa segons l'estratègia i si es pot fer
                     if player.wants_to_sell_house(property) and property.can_sell_house():
                         property.sell_house()
-                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
                         image_frame += 1
                         action_done = True
 
                 #Hipotecar propietat segons l'estratègia i si es pot fer
                 if player.wants_to_mortgage(property) and property.can_mortgage():
                     property.do_mortgage()
-                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                    draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
                     image_frame += 1
                     action_done = True
                 
                 #Hipotecar propietat segons l'estratègia i si es pot fer
                 if player.wants_to_unmortgage(property) and property.can_unmortgage():
                     property.do_unmortgage()
-                    draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                    draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
                     image_frame += 1
                     action_done = True
         
@@ -163,13 +164,13 @@ class Board:
                     #Construir casa segons l'estratègia i si es pot fer
                     if player.wants_to_build_house(property) and property.can_build_house():
                         property.build_house()
-                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
                         image_frame += 1
                         action_done = True
                     #Construir hotel segons l'estratègia i si es pot fer
                     if player.wants_to_build_hotel(property) and property.can_build_hotel():
                         property.build_hotel()
-                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
                         image_frame += 1
                         action_done = True
 
@@ -178,7 +179,6 @@ class Board:
     def check_bankruptcy(self) -> None:
         """
         Comprova si algun jugador ha anat a la fallida 
-        (README: Què passa si un jugador se'n va a la fallida?)
         """
 
         bankrupt_players = [player for player in self._players if player.broke() and not player.is_bankrupt()]
@@ -205,14 +205,14 @@ class Board:
         """Mètode principal. Gestiona tot el que passa durant la partida"""
         from draw import draw
 
-        #GENERACIÓ DE LA IMATGE DEL TAULELL ABANS DE COMENÇAR
+        #GENERACIÓ DE LA i DEL TAULELL ABANS DE COMENÇAR
         image_frame = 0 
         self._current_dice = (0, 0)
-        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+        draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
         image_frame += 1
 
         # Es va executant fins que quedi un jugador o es passing de més de 600 frames
-        while sum(1 for p in self._players if not p.is_bankrupt()) > 1 and image_frame < 600: 
+        while sum(1 for p in self._players if not p.is_bankrupt()) > 1 and image_frame < 2000: 
             
             self._num_double = 0
             
@@ -249,7 +249,7 @@ class Board:
                         image_frame = self.execute_tile(image_frame)
                     
                     else: # Si hi segueix, es genera frame quan està a la presó
-                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg")
+                        draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg")
                         image_frame += 1
                     
                     break # S'acaba el torn de la presó
@@ -264,7 +264,7 @@ class Board:
                     if self._num_double == 3:
                         print(f"El jugador {self.current_player().name()} se'n va a la presó per fer dobles tres cops {image_frame}")
                         self.current_player().go_to_prison() #ENVIAMENT A LA PRESÓ
-                        draw(self, f"CODIS/images/imatge{str(image_frame).zfill(5)}.svg") #Generem la imatge 
+                        draw(self, f"CODIS/images/i{str(image_frame).zfill(5)}.svg") #Generem la i 
                         image_frame += 1
                         
                         break # S'acaba torn del jugador
