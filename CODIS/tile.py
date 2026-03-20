@@ -7,7 +7,6 @@ if TYPE_CHECKING:
     from board import Board
     from player import Player
 
-
 class Tile:
     """Base class for all board tiles."""
 
@@ -65,7 +64,7 @@ class Property(Tile):
         self._price = price
         self._rent = rent
         self._mortgage= mortgage
-        self._owner = None
+        self._owner: Player|None = None
         self._is_mortgaged = False
 
     @property

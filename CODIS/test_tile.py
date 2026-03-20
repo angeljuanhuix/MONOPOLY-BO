@@ -24,14 +24,6 @@ def test_board() -> Board:
     return cast(Board, None)
 
 @pytest.fixture
-def real_board():
-    """Retorna una simulació d'un taulell real"""
-    class imaginary_dice:
-        def current_dice(self):
-                return (1, 1)
-    return imaginary_dice()
-
-@pytest.fixture
 def owner(test_board: Board) -> Player:
     """Retorna un player que farà de propietari"""
     return Player(test_board, "Jordi", "🚘", "LightCoral", 0, Simple_Strategy())
@@ -220,19 +212,19 @@ def test_station_calculation(test_board: Board, owner: Player) -> None:
     st4.buy(owner)
     assert st1.rent_calculation() == 200
 
-def test_utility_dice_and_multiplier(real_board: Board, owner: Player, visitor: Player) -> None:
+def test_utility_dice_and_multiplier(real_board2: Board, owner: Player, visitor: Player) -> None:
     """
     Comprova que el càlcul del lloguer és correcte (depenent de la 
     quantitat d'utilities i si cau a la casella per culpa d'una carta o no)
     """
     
-    ut1 = Utility(real_board, 12, "Electric Company", "utility", 150, 75, "Desc", 4, 10)
-    ut2 = Utility(real_board, 28, "Water Works", "utility", 150, 75, "Desc", 4, 10)
+    ut1 = Utility(real_board2, 12, "Electric Company", "utility", 150, 75, "Desc", 4, 10)
+    ut2 = Utility(real_board2, 28, "Water Works", "utility", 150, 75, "Desc", 4, 10)
     
     ut1.buy(owner)
     
     # Es simula que es treu dos cincs en els daus
-    real_board.current_dice = lambda: (5, 5)
+    setattr(real_board2, 'current_dice', lambda: (5, 5))
     
     # Càlcul tenint una utility
     assert ut1.rent_calculation() == 40

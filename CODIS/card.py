@@ -23,7 +23,7 @@ class Card:
         self._title = title
         self._description = description
         self._action = action
-        self._deck = None # S'assignarà quan es robi de la baralla
+        self._deck: Deck|None = None # S'assignarà quan es robi de la baralla
     
     def id(self) -> int:
         """Retorna l'identificador de la targeta"""
